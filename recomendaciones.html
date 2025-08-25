@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones de Destinos - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/recomendaciones.css">
+</head>
+<body class="bg-gray-900 bg-pattern text-white">
+
+    <!-- Header / Navegación -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-indigo-400 font-semibold">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+            </div>
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2">
+                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                </button>
+                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
+                    <div class="border-t border-gray-700 my-1"></div>
+                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Sección Hero -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                Descubre <span class="text-indigo-400">Destinos</span> Increíbles
+            </h1>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+                Explora los destinos más populares del mundo y sus actividades más representativas. Guarda tus favoritos y planifica tu próxima aventura.
+            </p>
+        </section>
+
+        <!-- Filtros -->
+        <section class="mb-8">
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm font-medium">Filtrar por:</span>
+                    </div>
+                    <button id="filter-all" class="filter-btn active bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                        Todos
+                    </button>
+                    <button id="filter-europe" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                        Europa
+                    </button>
+                    <button id="filter-asia" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                        Asia
+                    </button>
+                    <button id="filter-americas" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                        Américas
+                    </button>
+                    <button id="filter-africa" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                        África
+                    </button>
+                    <button id="filter-oceania" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                        Oceanía
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grid de Destinos -->
+        <section class="mb-12">
+            <div id="destinos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Los destinos se cargarán dinámicamente aquí -->
+            </div>
+        </section>
+
+        <!-- Sección de Destinos Guardados -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-8">Mis Destinos Guardados</h2>
+            <div id="destinos-guardados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Los destinos guardados se cargarán dinámicamente aquí -->
+            </div>
+            <div id="no-destinos-guardados" class="text-center py-12 hidden">
+                <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                </svg>
+                <p class="text-gray-400">No tienes destinos guardados</p>
+                <p class="text-sm text-gray-500 mt-2">Guarda tus destinos favoritos para verlos aquí</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal para Ver Más Actividades -->
+    <div id="modal-actividades" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h3 id="modal-titulo" class="text-2xl font-bold"></h3>
+                        <button id="cerrar-modal" class="text-gray-400 hover:text-white transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="modal-actividades-lista" class="space-y-4">
+                        <!-- Las actividades se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '/src/firebase.js'
+        import { onAuthStateChanged, signOut } from 'firebase/auth'
+        import { doc, getDoc, setDoc, collection, addDoc, getDocs, deleteDoc } from 'firebase/firestore'
+
+        const profileButton = document.getElementById('profile-button')
+        const profileMenu = document.getElementById('profile-menu')
+        const logoutLink = document.getElementById('logout-link')
+        const destinosContainer = document.getElementById('destinos-container')
+        const destinosGuardados = document.getElementById('destinos-guardados')
+        const noDestinosGuardados = document.getElementById('no-destinos-guardados')
+        const modalActividades = document.getElementById('modal-actividades')
+        const modalTitulo = document.getElementById('modal-titulo')
+        const modalActividadesLista = document.getElementById('modal-actividades-lista')
+        const cerrarModal = document.getElementById('cerrar-modal')
+
+        // Botones de filtro
+        const filterButtons = document.querySelectorAll('.filter-btn')
+
+        let currentUser = null
+        let destinosGuardadosUsuario = []
+        let currentFilter = 'all'
+
+        // Datos de destinos populares
+        const destinosData = [
+            {
+                id: 'paris',
+                nombre: 'París',
+                pais: 'Francia',
+                continente: 'europe',
+                imagen: 'https://images.unsplash.com/photo-1502602898534-47d3c0c8705b?w=800',
+                descripcion: 'La Ciudad de la Luz, famosa por su arte, moda, gastronomía y cultura.',
+                visitantesAnuales: '30 millones',
+                actividades: [
+                    {
+                        nombre: 'Visitar la Torre Eiffel',
+                        descripcion: 'Icono de París, ofrece vistas panorámicas de la ciudad',
+                        duracion: 3,
+                        tipo: 'turismo',
+                        precio: '€26'
+                    },
+                    {
+                        nombre: 'Museo del Louvre',
+                        descripcion: 'El museo más grande del mundo, hogar de la Mona Lisa',
+                        duracion: 4,
+                        tipo: 'cultura',
+                        precio: '€17'
+                    },
+                    {
+                        nombre: 'Paseo por los Campos Elíseos',
+                        descripcion: 'La avenida más famosa de París, llena de tiendas y cafés',
+                        duracion: 2,
+                        tipo: 'shopping',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'tokyo',
+                nombre: 'Tokio',
+                pais: 'Japón',
+                continente: 'asia',
+                imagen: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
+                descripcion: 'Una metrópolis futurista que combina tecnología avanzada con tradiciones milenarias.',
+                visitantesAnuales: '14 millones',
+                actividades: [
+                    {
+                        nombre: 'Visitar el Monte Fuji',
+                        descripcion: 'El pico más alto de Japón, símbolo nacional',
+                        duracion: 8,
+                        tipo: 'naturaleza',
+                        precio: '¥5,000'
+                    },
+                    {
+                        nombre: 'Templo Senso-ji',
+                        descripcion: 'El templo budista más antiguo de Tokio',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: 'Gratis'
+                    },
+                    {
+                        nombre: 'Shibuya Crossing',
+                        descripcion: 'El cruce peatonal más concurrido del mundo',
+                        duracion: 1,
+                        tipo: 'turismo',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'new-york',
+                nombre: 'Nueva York',
+                pais: 'Estados Unidos',
+                continente: 'americas',
+                imagen: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800',
+                descripcion: 'La Gran Manzana, centro financiero y cultural del mundo.',
+                visitantesAnuales: '66 millones',
+                actividades: [
+                    {
+                        nombre: 'Times Square',
+                        descripcion: 'El cruce más famoso del mundo, lleno de luces y vida',
+                        duracion: 2,
+                        tipo: 'turismo',
+                        precio: 'Gratis'
+                    },
+                    {
+                        nombre: 'Central Park',
+                        descripcion: 'El pulmón verde de Manhattan, 843 acres de naturaleza',
+                        duracion: 3,
+                        tipo: 'naturaleza',
+                        precio: 'Gratis'
+                    },
+                    {
+                        nombre: 'Museo Metropolitano',
+                        descripcion: 'Uno de los museos de arte más grandes del mundo',
+                        duracion: 4,
+                        tipo: 'cultura',
+                        precio: '$25'
+                    }
+                ]
+            },
+            {
+                id: 'rome',
+                nombre: 'Roma',
+                pais: 'Italia',
+                continente: 'europe',
+                imagen: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800',
+                descripcion: 'La Ciudad Eterna, cuna de la civilización occidental.',
+                visitantesAnuales: '10 millones',
+                actividades: [
+                    {
+                        nombre: 'Coliseo Romano',
+                        descripcion: 'El anfiteatro más grande del Imperio Romano',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: '€16'
+                    },
+                    {
+                        nombre: 'Vaticano y Capilla Sixtina',
+                        descripcion: 'Centro espiritual del catolicismo y obras de arte únicas',
+                        duracion: 4,
+                        tipo: 'cultura',
+                        precio: '€17'
+                    },
+                    {
+                        nombre: 'Fontana di Trevi',
+                        descripcion: 'La fuente más famosa de Roma, lanza una moneda',
+                        duracion: 1,
+                        tipo: 'turismo',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'barcelona',
+                nombre: 'Barcelona',
+                pais: 'España',
+                continente: 'europe',
+                imagen: 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800',
+                descripcion: 'Ciudad cosmopolita con arquitectura única y playas mediterráneas.',
+                visitantesAnuales: '12 millones',
+                actividades: [
+                    {
+                        nombre: 'Sagrada Familia',
+                        descripcion: 'Obra maestra de Gaudí, en construcción desde 1882',
+                        duracion: 2.5,
+                        tipo: 'cultura',
+                        precio: '€26'
+                    },
+                    {
+                        nombre: 'Park Güell',
+                        descripcion: 'Parque público con arquitectura modernista de Gaudí',
+                        duracion: 3,
+                        tipo: 'naturaleza',
+                        precio: '€10'
+                    },
+                    {
+                        nombre: 'La Rambla',
+                        descripcion: 'Avenida peatonal llena de vida, artistas y mercados',
+                        duracion: 2,
+                        tipo: 'turismo',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'sydney',
+                nombre: 'Sídney',
+                pais: 'Australia',
+                continente: 'oceania',
+                imagen: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800',
+                descripcion: 'Ciudad costera con la Ópera más famosa del mundo.',
+                visitantesAnuales: '4 millones',
+                actividades: [
+                    {
+                        nombre: 'Ópera de Sídney',
+                        descripcion: 'Icono arquitectónico y centro de artes escénicas',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: 'AUD 42'
+                    },
+                    {
+                        nombre: 'Puente de la Bahía',
+                        descripcion: 'Puente emblemático con vistas panorámicas',
+                        duracion: 1.5,
+                        tipo: 'turismo',
+                        precio: 'Gratis'
+                    },
+                    {
+                        nombre: 'Bondi Beach',
+                        descripcion: 'Una de las playas más famosas del mundo',
+                        duracion: 4,
+                        tipo: 'naturaleza',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'cairo',
+                nombre: 'El Cairo',
+                pais: 'Egipto',
+                continente: 'africa',
+                imagen: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800',
+                descripcion: 'Ciudad milenaria con las pirámides más antiguas del mundo.',
+                visitantesAnuales: '9 millones',
+                actividades: [
+                    {
+                        nombre: 'Pirámides de Giza',
+                        descripcion: 'Las únicas maravillas del mundo antiguo que siguen en pie',
+                        duracion: 4,
+                        tipo: 'cultura',
+                        precio: 'EGP 200'
+                    },
+                    {
+                        nombre: 'Museo Egipcio',
+                        descripcion: 'La mayor colección de antigüedades egipcias del mundo',
+                        duracion: 3,
+                        tipo: 'cultura',
+                        precio: 'EGP 200'
+                    },
+                    {
+                        nombre: 'Khan el-Khalili',
+                        descripcion: 'Mercado tradicional con más de 600 años de historia',
+                        duracion: 2,
+                        tipo: 'shopping',
+                        precio: 'Gratis'
+                    }
+                ]
+            },
+            {
+                id: 'singapore',
+                nombre: 'Singapur',
+                pais: 'Singapur',
+                continente: 'asia',
+                imagen: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=800',
+                descripcion: 'Ciudad-estado moderna con una mezcla única de culturas.',
+                visitantesAnuales: '19 millones',
+                actividades: [
+                    {
+                        nombre: 'Marina Bay Sands',
+                        descripcion: 'Hotel icónico con piscina infinita en la azotea',
+                        duracion: 3,
+                        tipo: 'turismo',
+                        precio: 'SGD 23'
+                    },
+                    {
+                        nombre: 'Gardens by the Bay',
+                        descripcion: 'Jardines futuristas con superárboles',
+                        duracion: 3,
+                        tipo: 'naturaleza',
+                        precio: 'SGD 28'
+                    },
+                    {
+                        nombre: 'Sentosa Island',
+                        descripcion: 'Isla de entretenimiento con playas y atracciones',
+                        duracion: 6,
+                        tipo: 'entretenimiento',
+                        precio: 'SGD 4'
+                    }
+                ]
+            },
+            {
+                id: 'mexico-city',
+                nombre: 'Ciudad de México',
+                pais: 'México',
+                continente: 'americas',
+                imagen: 'https://images.unsplash.com/photo-1522083165195-3424ed129620?w=800',
+                descripcion: 'La ciudad más grande de América, rica en historia y cultura.',
+                visitantesAnuales: '12 millones',
+                actividades: [
+                    {
+                        nombre: 'Zócalo y Catedral',
+                        descripcion: 'Plaza principal con la catedral más grande de América',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: 'Gratis'
+                    },
+                    {
+                        nombre: 'Teotihuacán',
+                        descripcion: 'Pirámides prehispánicas a las afueras de la ciudad',
+                        duracion: 6,
+                        tipo: 'cultura',
+                        precio: 'MXN 80'
+                    },
+                    {
+                        nombre: 'Museo Frida Kahlo',
+                        descripcion: 'Casa azul de la famosa artista mexicana',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: 'MXN 250'
+                    }
+                ]
+            }
+        ]
+
+        // Si no hay usuario autenticado, regresar al login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/login.html'
+                return
+            }
+            currentUser = user
+            
+            // Cargar datos
+            loadDestinosGuardados(user.uid)
+            renderDestinos()
+        })
+
+        // Event listeners
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('hidden')
+        })
+
+        window.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden')
+            }
+        })
+
+        logoutLink.addEventListener('click', async (e) => {
+            e.preventDefault()
+            try {
+                await signOut(auth)
+                window.location.href = '/login.html'
+            } catch (err) {
+                console.error('Error al cerrar sesión', err)
+            }
+        })
+
+        // Filtros
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remover clase active de todos los botones
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-indigo-600', 'text-white')
+                    btn.classList.add('bg-gray-700', 'text-gray-300')
+                })
+                
+                // Agregar clase active al botón clickeado
+                button.classList.add('active', 'bg-indigo-600', 'text-white')
+                button.classList.remove('bg-gray-700', 'text-gray-300')
+                
+                // Actualizar filtro
+                currentFilter = button.id.replace('filter-', '')
+                renderDestinos()
+            })
+        })
+
+        // Modal
+        cerrarModal.addEventListener('click', () => {
+            modalActividades.classList.add('hidden')
+        })
+
+        modalActividades.addEventListener('click', (e) => {
+            if (e.target === modalActividades) {
+                modalActividades.classList.add('hidden')
+            }
+        })
+
+        // Funciones
+        function renderDestinos() {
+            destinosContainer.innerHTML = ''
+            
+            const destinosFiltrados = currentFilter === 'all' 
+                ? destinosData 
+                : destinosData.filter(destino => destino.continente === currentFilter)
+            
+            destinosFiltrados.forEach(destino => {
+                const destinoElement = createDestinoCard(destino)
+                destinosContainer.appendChild(destinoElement)
+            })
+        }
+
+        function createDestinoCard(destino) {
+            const card = document.createElement('div')
+            card.className = 'bg-gray-800/50 border border-gray-700 rounded-2xl overflow-hidden card-hover'
+            
+            const isGuardado = destinosGuardadosUsuario.some(d => d.id === destino.id)
+            
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${destino.imagen}" alt="${destino.nombre}" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4">
+                        ${isGuardado ? `
+                            <button onclick="removeDestinoGuardado('${destino.id}')" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        ` : `
+                            <button onclick="guardarDestino('${destino.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-full transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                                </svg>
+                            </button>
+                        `}
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">${destino.nombre}</h3>
+                            <p class="text-gray-400 text-sm">${destino.pais}</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-semibold rounded-full">
+                            ${destino.visitantesAnuales}
+                        </span>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">${destino.descripcion}</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-sm font-semibold mb-2">Actividades Destacadas:</h4>
+                        <div class="space-y-2">
+                            ${destino.actividades.slice(0, 2).map(actividad => `
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-300">${actividad.nombre}</span>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded">${actividad.duracion}h</span>
+                                        <button onclick="agregarActividadAItinerario('${destino.id}', '${actividad.nombre}', ${actividad.duracion}, '${actividad.tipo}', '${destino.nombre}')" class="text-indigo-400 hover:text-indigo-300 text-xs">
+                                            + Itinerario
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="verMasActividades('${destino.id}')" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition text-sm">
+                            Ver Más Actividades
+                        </button>
+                        ${!isGuardado ? `
+                            <button onclick="guardarDestino('${destino.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm">
+                                Guardar
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `
+            
+            return card
+        }
+
+        async function loadDestinosGuardados(uid) {
+            try {
+                const destinosRef = collection(db, 'usuarios', uid, 'destinosGuardados')
+                const destinosSnap = await getDocs(destinosRef)
+                
+                destinosGuardadosUsuario = []
+                destinosSnap.forEach(doc => {
+                    destinosGuardadosUsuario.push({ id: doc.id, ...doc.data() })
+                })
+                
+                renderDestinosGuardados()
+                
+            } catch (err) {
+                console.error('Error al cargar destinos guardados', err)
+            }
+        }
+
+        function renderDestinosGuardados() {
+            if (destinosGuardadosUsuario.length === 0) {
+                destinosGuardados.innerHTML = ''
+                noDestinosGuardados.classList.remove('hidden')
+                return
+            }
+            
+            noDestinosGuardados.classList.add('hidden')
+            destinosGuardados.innerHTML = ''
+            
+            destinosGuardadosUsuario.forEach(destinoGuardado => {
+                const destino = destinosData.find(d => d.id === destinoGuardado.id)
+                if (destino) {
+                    const destinoElement = createDestinoCard(destino)
+                    destinosGuardados.appendChild(destinoElement)
+                }
+            })
+        }
+
+        // Funciones globales
+        window.guardarDestino = async function(destinoId) {
+            if (!currentUser) return
+            
+            try {
+                const destino = destinosData.find(d => d.id === destinoId)
+                if (!destino) return
+                
+                const destinoData = {
+                    id: destino.id,
+                    nombre: destino.nombre,
+                    pais: destino.pais,
+                    imagen: destino.imagen,
+                    guardadoEn: new Date().toISOString()
+                }
+                
+                const destinoRef = doc(db, 'usuarios', currentUser.uid, 'destinosGuardados', destinoId)
+                await setDoc(destinoRef, destinoData)
+                
+                destinosGuardadosUsuario.push(destinoData)
+                renderDestinosGuardados()
+                
+                showNotification(`Destino ${destino.nombre} guardado correctamente`)
+                
+            } catch (err) {
+                console.error('Error al guardar destino', err)
+                showNotification('Error al guardar destino', 'error')
+            }
+        }
+
+        window.removeDestinoGuardado = async function(destinoId) {
+            if (!currentUser) return
+            
+            try {
+                const destinoRef = doc(db, 'usuarios', currentUser.uid, 'destinosGuardados', destinoId)
+                await deleteDoc(destinoRef)
+                
+                destinosGuardadosUsuario = destinosGuardadosUsuario.filter(d => d.id !== destinoId)
+                renderDestinosGuardados()
+                
+                showNotification('Destino eliminado de guardados')
+                
+            } catch (err) {
+                console.error('Error al eliminar destino', err)
+                showNotification('Error al eliminar destino', 'error')
+            }
+        }
+
+        window.verMasActividades = function(destinoId) {
+            const destino = destinosData.find(d => d.id === destinoId)
+            if (!destino) return
+            
+            modalTitulo.textContent = `Actividades en ${destino.nombre}`
+            modalActividadesLista.innerHTML = ''
+            
+            destino.actividades.forEach(actividad => {
+                const actividadElement = document.createElement('div')
+                actividadElement.className = 'bg-gray-700/50 rounded-lg p-4'
+                actividadElement.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h4 class="font-semibold mb-2">${actividad.nombre}</h4>
+                            <p class="text-gray-300 text-sm mb-3">${actividad.descripcion}</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-400">
+                                <span>⏱️ ${actividad.duracion} horas</span>
+                                <span>💰 ${actividad.precio}</span>
+                                <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">${actividad.tipo}</span>
+                            </div>
+                        </div>
+                        <button onclick="agregarActividadAItinerario('${destino.id}', '${actividad.nombre}', ${actividad.duracion}, '${actividad.tipo}', '${destino.nombre}')" class="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm transition">
+                            + Itinerario
+                        </button>
+                    </div>
+                `
+                modalActividadesLista.appendChild(actividadElement)
+            })
+            
+            modalActividades.classList.remove('hidden')
+        }
+
+        window.agregarActividadAItinerario = async function(destinoId, nombreActividad, duracion, tipo, ciudadNombre) {
+            if (!currentUser) return
+            
+            try {
+                // Verificar si el usuario tiene la ciudad en su itinerario
+                const ciudadRef = doc(db, 'usuarios', currentUser.uid, 'ciudades', destinoId)
+                const ciudadSnap = await getDoc(ciudadRef)
+                
+                if (!ciudadSnap.exists()) {
+                    // Crear la ciudad si no existe
+                    const ciudadData = {
+                        id: destinoId,
+                        nombre: ciudadNombre,
+                        createdAt: new Date().toISOString()
+                    }
+                    await setDoc(ciudadRef, ciudadData)
+                }
+                
+                // Agregar la actividad
+                const actividad = {
+                    nombre: nombreActividad,
+                    fecha: new Date().toISOString().split('T')[0],
+                    hora: '10:00',
+                    tipo: tipo,
+                    duracion: duracion,
+                    ubicacion: ciudadNombre,
+                    descripcion: `Actividad recomendada de ${ciudadNombre}`,
+                    notas: 'Agregada desde recomendaciones',
+                    createdAt: new Date().toISOString()
+                }
+                
+                const actividadesRef = collection(db, 'usuarios', currentUser.uid, 'ciudades', destinoId, 'actividades')
+                await addDoc(actividadesRef, actividad)
+                
+                showNotification(`Actividad "${nombreActividad}" agregada a tu itinerario`)
+                
+            } catch (err) {
+                console.error('Error al agregar actividad al itinerario', err)
+                showNotification('Error al agregar actividad al itinerario', 'error')
+            }
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div')
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`
+            notification.textContent = message
+            
+            document.body.appendChild(notification)
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full')
+            }, 100)
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full')
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification)
+                    }
+                }, 300)
+            }, 3000)
+        }
+    </script>
+
+</body>
+</html>
+
+    <!-- Modal para Ver Más Actividades -->
+    <div id="modal-actividades" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h3 id="modal-titulo" class="text-2xl font-bold"></h3>
+                        <button id="cerrar-modal" class="text-gray-400 hover:text-white transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="modal-actividades-lista" class="space-y-4">
+                        <!-- Las actividades se cargarán dinámicamente aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '/src/firebase.js'
+        import { onAuthStateChanged, signOut } from 'firebase/auth'
+        import { doc, getDoc, setDoc, collection, addDoc, getDocs, deleteDoc } from 'firebase/firestore'
+
+        const profileButton = document.getElementById('profile-button')
+        const profileMenu = document.getElementById('profile-menu')
+        const logoutLink = document.getElementById('logout-link')
+        const destinosContainer = document.getElementById('destinos-container')
+        const destinosGuardados = document.getElementById('destinos-guardados')
+        const noDestinosGuardados = document.getElementById('no-destinos-guardados')
+        const modalActividades = document.getElementById('modal-actividades')
+        const modalTitulo = document.getElementById('modal-titulo')
+        const modalActividadesLista = document.getElementById('modal-actividades-lista')
+        const cerrarModal = document.getElementById('cerrar-modal')
+
+        // Botones de filtro
+        const filterButtons = document.querySelectorAll('.filter-btn')
+
+        let currentUser = null
+        let destinosGuardadosUsuario = []
+        let currentFilter = 'all'
+
+        // Datos de destinos populares (ejemplo simplificado)
+        const destinosData = [
+            {
+                id: 'paris',
+                nombre: 'París',
+                pais: 'Francia',
+                continente: 'europe',
+                imagen: 'https://images.unsplash.com/photo-1502602898534-47d3c0c8705b?w=800',
+                descripcion: 'La Ciudad de la Luz, famosa por su arte, moda, gastronomía y cultura.',
+                visitantesAnuales: '30 millones',
+                actividades: [
+                    {
+                        nombre: 'Visitar la Torre Eiffel',
+                        descripcion: 'Icono de París, ofrece vistas panorámicas de la ciudad',
+                        duracion: 3,
+                        tipo: 'turismo',
+                        precio: '€26'
+                    },
+                    {
+                        nombre: 'Museo del Louvre',
+                        descripcion: 'El museo más grande del mundo, hogar de la Mona Lisa',
+                        duracion: 4,
+                        tipo: 'cultura',
+                        precio: '€17'
+                    }
+                ]
+            },
+            {
+                id: 'tokyo',
+                nombre: 'Tokio',
+                pais: 'Japón',
+                continente: 'asia',
+                imagen: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
+                descripcion: 'Una metrópolis futurista que combina tecnología avanzada con tradiciones milenarias.',
+                visitantesAnuales: '14 millones',
+                actividades: [
+                    {
+                        nombre: 'Visitar el Monte Fuji',
+                        descripcion: 'El pico más alto de Japón, símbolo nacional',
+                        duracion: 8,
+                        tipo: 'naturaleza',
+                        precio: '¥5,000'
+                    },
+                    {
+                        nombre: 'Templo Senso-ji',
+                        descripcion: 'El templo budista más antiguo de Tokio',
+                        duracion: 2,
+                        tipo: 'cultura',
+                        precio: 'Gratis'
+                    }
+                ]
+            }
+        ]
+
+        // Si no hay usuario autenticado, regresar al login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/login.html'
+                return
+            }
+            currentUser = user
+            
+            // Cargar datos
+            loadDestinosGuardados(user.uid)
+            renderDestinos()
+        })
+
+        // Event listeners básicos
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('hidden')
+        })
+
+        window.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden')
+            }
+        })
+
+        logoutLink.addEventListener('click', async (e) => {
+            e.preventDefault()
+            try {
+                await signOut(auth)
+                window.location.href = '/login.html'
+            } catch (err) {
+                console.error('Error al cerrar sesión', err)
+            }
+        })
+
+        // Filtros
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-indigo-600', 'text-white')
+                    btn.classList.add('bg-gray-700', 'text-gray-300')
+                })
+                
+                button.classList.add('active', 'bg-indigo-600', 'text-white')
+                button.classList.remove('bg-gray-700', 'text-gray-300')
+                
+                currentFilter = button.id.replace('filter-', '')
+                renderDestinos()
+            })
+        })
+
+        // Modal
+        cerrarModal.addEventListener('click', () => {
+            modalActividades.classList.add('hidden')
+        })
+
+        modalActividades.addEventListener('click', (e) => {
+            if (e.target === modalActividades) {
+                modalActividades.classList.add('hidden')
+            }
+        })
+
+        // Funciones principales
+        function renderDestinos() {
+            destinosContainer.innerHTML = ''
+            
+            const destinosFiltrados = currentFilter === 'all' 
+                ? destinosData 
+                : destinosData.filter(destino => destino.continente === currentFilter)
+            
+            destinosFiltrados.forEach(destino => {
+                const destinoElement = createDestinoCard(destino)
+                destinosContainer.appendChild(destinoElement)
+            })
+        }
+
+        function createDestinoCard(destino) {
+            const card = document.createElement('div')
+            card.className = 'bg-gray-800/50 border border-gray-700 rounded-2xl overflow-hidden card-hover'
+            
+            const isGuardado = destinosGuardadosUsuario.some(d => d.id === destino.id)
+            
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${destino.imagen}" alt="${destino.nombre}" class="w-full h-48 object-cover">
+                    <div class="absolute top-4 right-4">
+                        ${isGuardado ? `
+                            <button onclick="removeDestinoGuardado('${destino.id}')" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        ` : `
+                            <button onclick="guardarDestino('${destino.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-full transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                                </svg>
+                            </button>
+                        `}
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold mb-1">${destino.nombre}</h3>
+                            <p class="text-gray-400 text-sm">${destino.pais}</p>
+                        </div>
+                        <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 text-xs font-semibold rounded-full">
+                            ${destino.visitantesAnuales}
+                        </span>
+                    </div>
+                    <p class="text-gray-300 text-sm mb-4">${destino.descripcion}</p>
+                    
+                    <div class="mb-4">
+                        <h4 class="text-sm font-semibold mb-2">Actividades Destacadas:</h4>
+                        <div class="space-y-2">
+                            ${destino.actividades.slice(0, 2).map(actividad => `
+                                <div class="flex items-center justify-between text-sm">
+                                    <span class="text-gray-300">${actividad.nombre}</span>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded">${actividad.duracion}h</span>
+                                        <button onclick="agregarActividadAItinerario('${destino.id}', '${actividad.nombre}', ${actividad.duracion}, '${actividad.tipo}', '${destino.nombre}')" class="text-indigo-400 hover:text-indigo-300 text-xs">
+                                            + Itinerario
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="verMasActividades('${destino.id}')" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg transition text-sm">
+                            Ver Más Actividades
+                        </button>
+                        ${!isGuardado ? `
+                            <button onclick="guardarDestino('${destino.id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition text-sm">
+                                Guardar
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `
+            
+            return card
+        }
+
+        async function loadDestinosGuardados(uid) {
+            try {
+                const destinosRef = collection(db, 'usuarios', uid, 'destinosGuardados')
+                const destinosSnap = await getDocs(destinosRef)
+                
+                destinosGuardadosUsuario = []
+                destinosSnap.forEach(doc => {
+                    destinosGuardadosUsuario.push({ id: doc.id, ...doc.data() })
+                })
+                
+                renderDestinosGuardados()
+                
+            } catch (err) {
+                console.error('Error al cargar destinos guardados', err)
+            }
+        }
+
+        function renderDestinosGuardados() {
+            if (destinosGuardadosUsuario.length === 0) {
+                destinosGuardados.innerHTML = ''
+                noDestinosGuardados.classList.remove('hidden')
+                return
+            }
+            
+            noDestinosGuardados.classList.add('hidden')
+            destinosGuardados.innerHTML = ''
+            
+            destinosGuardadosUsuario.forEach(destinoGuardado => {
+                const destino = destinosData.find(d => d.id === destinoGuardado.id)
+                if (destino) {
+                    const destinoElement = createDestinoCard(destino)
+                    destinosGuardados.appendChild(destinoElement)
+                }
+            })
+        }
+
+        // Funciones globales
+        window.guardarDestino = async function(destinoId) {
+            if (!currentUser) return
+            
+            try {
+                const destino = destinosData.find(d => d.id === destinoId)
+                if (!destino) return
+                
+                const destinoData = {
+                    id: destino.id,
+                    nombre: destino.nombre,
+                    pais: destino.pais,
+                    imagen: destino.imagen,
+                    guardadoEn: new Date().toISOString()
+                }
+                
+                const destinoRef = doc(db, 'usuarios', currentUser.uid, 'destinosGuardados', destinoId)
+                await setDoc(destinoRef, destinoData)
+                
+                destinosGuardadosUsuario.push(destinoData)
+                renderDestinosGuardados()
+                
+                showNotification(`Destino ${destino.nombre} guardado correctamente`)
+                
+            } catch (err) {
+                console.error('Error al guardar destino', err)
+                showNotification('Error al guardar destino', 'error')
+            }
+        }
+
+        window.removeDestinoGuardado = async function(destinoId) {
+            if (!currentUser) return
+            
+            try {
+                const destinoRef = doc(db, 'usuarios', currentUser.uid, 'destinosGuardados', destinoId)
+                await deleteDoc(destinoRef)
+                
+                destinosGuardadosUsuario = destinosGuardadosUsuario.filter(d => d.id !== destinoId)
+                renderDestinosGuardados()
+                
+                showNotification('Destino eliminado de guardados')
+                
+            } catch (err) {
+                console.error('Error al eliminar destino', err)
+                showNotification('Error al eliminar destino', 'error')
+            }
+        }
+
+        window.verMasActividades = function(destinoId) {
+            const destino = destinosData.find(d => d.id === destinoId)
+            if (!destino) return
+            
+            modalTitulo.textContent = `Actividades en ${destino.nombre}`
+            modalActividadesLista.innerHTML = ''
+            
+            destino.actividades.forEach(actividad => {
+                const actividadElement = document.createElement('div')
+                actividadElement.className = 'bg-gray-700/50 rounded-lg p-4'
+                actividadElement.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h4 class="font-semibold mb-2">${actividad.nombre}</h4>
+                            <p class="text-gray-300 text-sm mb-3">${actividad.descripcion}</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-400">
+                                <span>⏱️ ${actividad.duracion} horas</span>
+                                <span>💰 ${actividad.precio}</span>
+                                <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">${actividad.tipo}</span>
+                            </div>
+                        </div>
+                        <button onclick="agregarActividadAItinerario('${destino.id}', '${actividad.nombre}', ${actividad.duracion}, '${actividad.tipo}', '${destino.nombre}')" class="ml-4 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm transition">
+                            + Itinerario
+                        </button>
+                    </div>
+                `
+                modalActividadesLista.appendChild(actividadElement)
+            })
+            
+            modalActividades.classList.remove('hidden')
+        }
+
+        window.agregarActividadAItinerario = async function(destinoId, nombreActividad, duracion, tipo, ciudadNombre) {
+            if (!currentUser) return
+            
+            try {
+                // Verificar si el usuario tiene la ciudad en su itinerario
+                const ciudadRef = doc(db, 'usuarios', currentUser.uid, 'ciudades', destinoId)
+                const ciudadSnap = await getDoc(ciudadRef)
+                
+                if (!ciudadSnap.exists()) {
+                    // Crear la ciudad si no existe
+                    const ciudadData = {
+                        id: destinoId,
+                        nombre: ciudadNombre,
+                        createdAt: new Date().toISOString()
+                    }
+                    await setDoc(ciudadRef, ciudadData)
+                }
+                
+                // Agregar la actividad
+                const actividad = {
+                    nombre: nombreActividad,
+                    fecha: new Date().toISOString().split('T')[0],
+                    hora: '10:00',
+                    tipo: tipo,
+                    duracion: duracion,
+                    ubicacion: ciudadNombre,
+                    descripcion: `Actividad recomendada de ${ciudadNombre}`,
+                    notas: 'Agregada desde recomendaciones',
+                    createdAt: new Date().toISOString()
+                }
+                
+                const actividadesRef = collection(db, 'usuarios', currentUser.uid, 'ciudades', destinoId, 'actividades')
+                await addDoc(actividadesRef, actividad)
+                
+                showNotification(`Actividad "${nombreActividad}" agregada a tu itinerario`)
+                
+            } catch (err) {
+                console.error('Error al agregar actividad al itinerario', err)
+                showNotification('Error al agregar actividad al itinerario', 'error')
+            }
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div')
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`
+            notification.textContent = message
+            
+            document.body.appendChild(notification)
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full')
+            }, 100)
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full')
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification)
+                    }
+                }, 300)
+            }, 3000)
+        }
+    </script>
+
+</body>
+</html> 

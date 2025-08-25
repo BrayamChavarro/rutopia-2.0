@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Itinerario - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/itinerario.css">
+</head>
+<body class="bg-gray-900 bg-pattern text-white">
+
+    <!-- Header / Navegación -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
+                <a href="/itinerario.html" class="text-indigo-400 font-semibold">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+            </div>
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2">
+                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                </button>
+                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
+                    <div class="border-t border-gray-700 my-1"></div>
+                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Sección Hero -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                Mi <span class="text-indigo-400">Itinerario</span>
+            </h1>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+                Planifica y organiza tus actividades según la ciudad donde te encuentres. Registra lugares, horarios y notas importantes.
+            </p>
+        </section>
+
+        <!-- Selector de Ciudad -->
+        <section class="mb-12">
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">Ciudad Actual</h2>
+                        <p class="text-gray-400">Selecciona la ciudad donde te encuentras para ver y agregar actividades</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <select id="ciudad-selector" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Selecciona una ciudad</option>
+                            <option value="cdmx">Ciudad de México</option>
+                            <option value="guadalajara">Guadalajara</option>
+                            <option value="monterrey">Monterrey</option>
+                            <option value="puebla">Puebla</option>
+                            <option value="merida">Mérida</option>
+                            <option value="cancun">Cancún</option>
+                            <option value="tijuana">Tijuana</option>
+                            <option value="leon">León</option>
+                            <option value="queretaro">Querétaro</option>
+                            <option value="san-miguel">San Miguel de Allende</option>
+                        </select>
+                        <button id="agregar-ciudad" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                            Agregar Ciudad
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formulario para Agregar Actividad -->
+        <section class="mb-12" id="formulario-actividad" style="display: none;">
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+                <h2 class="text-2xl font-bold mb-6">Agregar Nueva Actividad</h2>
+                <form id="actividad-form" class="grid md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-2">Nombre de la Actividad</label>
+                        <input type="text" id="nombre-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Visitar el Zócalo" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Fecha</label>
+                        <input type="date" id="fecha-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Hora</label>
+                        <input type="time" id="hora-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Tipo de Actividad</label>
+                        <select id="tipo-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            <option value="">Selecciona un tipo</option>
+                            <option value="turismo">Turismo</option>
+                            <option value="gastronomia">Gastronomía</option>
+                            <option value="cultura">Cultura</option>
+                            <option value="naturaleza">Naturaleza</option>
+                            <option value="deportes">Deportes</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="entretenimiento">Entretenimiento</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Duración (horas)</label>
+                        <input type="number" id="duracion-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="2" min="0.5" step="0.5" required>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-2">Ubicación</label>
+                        <input type="text" id="ubicacion-actividad" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Plaza de la Constitución, Centro Histórico" required>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-2">Descripción</label>
+                        <textarea id="descripcion-actividad" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Describe la actividad, qué esperas hacer, etc."></textarea>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium mb-2">Notas Adicionales</label>
+                        <textarea id="notas-actividad" rows="2" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Precios, horarios especiales, consejos, etc."></textarea>
+                    </div>
+                    
+                    <div class="md:col-span-2 flex justify-end space-x-4">
+                        <button type="button" id="cancelar-actividad" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                            Agregar Actividad
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Lista de Actividades -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold">Actividades Programadas</h2>
+                <button id="mostrar-formulario" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <span>Nueva Actividad</span>
+                </button>
+            </div>
+            
+            <div id="actividades-container" class="space-y-4">
+                <!-- Las actividades se cargarán dinámicamente aquí -->
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    <p class="text-gray-400">No hay actividades programadas</p>
+                    <p class="text-sm text-gray-500 mt-2">Selecciona una ciudad y agrega tu primera actividad</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estadísticas del Viaje -->
+        <section>
+            <h2 class="text-3xl font-bold mb-8">Resumen del Viaje</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-indigo-400 mb-2" id="total-actividades">0</div>
+                    <p class="text-gray-400">Actividades</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="total-ciudades">0</div>
+                    <p class="text-gray-400">Ciudades</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="total-horas">0</div>
+                    <p class="text-gray-400">Horas</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="proximo-evento">-</div>
+                    <p class="text-gray-400">Próximo Evento</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '/src/firebase.js'
+        import { onAuthStateChanged, signOut } from 'firebase/auth'
+        import { doc, getDoc, setDoc, collection, addDoc, query, where, getDocs, deleteDoc } from 'firebase/firestore'
+
+        const profileButton = document.getElementById('profile-button')
+        const profileMenu = document.getElementById('profile-menu')
+        const logoutLink = document.getElementById('logout-link')
+        const ciudadSelector = document.getElementById('ciudad-selector')
+        const agregarCiudadBtn = document.getElementById('agregar-ciudad')
+        const mostrarFormularioBtn = document.getElementById('mostrar-formulario')
+        const formularioActividad = document.getElementById('formulario-actividad')
+        const actividadForm = document.getElementById('actividad-form')
+        const cancelarActividadBtn = document.getElementById('cancelar-actividad')
+        const actividadesContainer = document.getElementById('actividades-container')
+
+        // Elementos del formulario
+        const nombreActividad = document.getElementById('nombre-actividad')
+        const fechaActividad = document.getElementById('fecha-actividad')
+        const horaActividad = document.getElementById('hora-actividad')
+        const tipoActividad = document.getElementById('tipo-actividad')
+        const duracionActividad = document.getElementById('duracion-actividad')
+        const ubicacionActividad = document.getElementById('ubicacion-actividad')
+        const descripcionActividad = document.getElementById('descripcion-actividad')
+        const notasActividad = document.getElementById('notas-actividad')
+
+        // Elementos de estadísticas
+        const totalActividades = document.getElementById('total-actividades')
+        const totalCiudades = document.getElementById('total-ciudades')
+        const totalHoras = document.getElementById('total-horas')
+        const proximoEvento = document.getElementById('proximo-evento')
+
+        let currentUser = null
+        let actividades = []
+        let ciudades = []
+
+        // Establecer fecha mínima como hoy
+        const today = new Date().toISOString().split('T')[0]
+        fechaActividad.min = today
+
+        // Inicializar ciudades predefinidas en el selector
+        function initializeCiudadSelector() {
+            const ciudadesPredefinidas = [
+                { id: 'cdmx', nombre: 'Ciudad de México' },
+                { id: 'guadalajara', nombre: 'Guadalajara' },
+                { id: 'monterrey', nombre: 'Monterrey' },
+                { id: 'puebla', nombre: 'Puebla' },
+                { id: 'merida', nombre: 'Mérida' },
+                { id: 'cancun', nombre: 'Cancún' },
+                { id: 'tijuana', nombre: 'Tijuana' },
+                { id: 'leon', nombre: 'León' },
+                { id: 'queretaro', nombre: 'Querétaro' },
+                { id: 'san-miguel', nombre: 'San Miguel de Allende' }
+            ]
+            
+            // Limpiar opciones existentes
+            ciudadSelector.innerHTML = '<option value="">Selecciona una ciudad</option>'
+            
+            // Agregar ciudades predefinidas
+            ciudadesPredefinidas.forEach(ciudad => {
+                const option = document.createElement('option')
+                option.value = ciudad.id
+                option.textContent = ciudad.nombre
+                ciudadSelector.appendChild(option)
+            })
+        }
+
+        // Si no hay usuario autenticado, regresar al login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/login.html'
+                return
+            }
+            currentUser = user
+            
+            // Cargar datos del usuario
+            loadUserData(user.uid)
+        })
+
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('hidden')
+        })
+
+        // Cerrar el menú al hacer click fuera
+        window.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden')
+            }
+        })
+
+        // Cerrar sesión
+        logoutLink.addEventListener('click', async (e) => {
+            e.preventDefault()
+            try {
+                await signOut(auth)
+                window.location.href = '/login.html'
+            } catch (err) {
+                console.error('Error al cerrar sesión', err)
+            }
+        })
+
+        // Event listeners
+        ciudadSelector.addEventListener('change', () => {
+            if (ciudadSelector.value) {
+                loadActividades(ciudadSelector.value)
+            } else {
+                clearActividades()
+            }
+        })
+
+        // Event listener para agregar ciudad
+        agregarCiudadBtn.addEventListener('click', () => {
+            const ciudadSeleccionada = ciudadSelector.value
+            if (!ciudadSeleccionada) {
+                showNotification('Primero selecciona una ciudad del dropdown', 'error')
+                return
+            }
+            
+            // Verificar si la ciudad ya existe
+            const ciudadExiste = ciudades.some(ciudad => ciudad.id === ciudadSeleccionada)
+            if (ciudadExiste) {
+                showNotification('Esta ciudad ya está en tu lista', 'info')
+                return
+            }
+            
+            // Agregar la ciudad a la base de datos
+            agregarCiudad(ciudadSeleccionada)
+        })
+
+        mostrarFormularioBtn.addEventListener('click', () => {
+            if (!ciudadSelector.value) {
+                showNotification('Primero selecciona una ciudad', 'error')
+                return
+            }
+            formularioActividad.style.display = 'block'
+            mostrarFormularioBtn.style.display = 'none'
+        })
+
+        cancelarActividadBtn.addEventListener('click', () => {
+            hideFormulario()
+            resetForm()
+        })
+
+        actividadForm.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            await agregarActividad()
+        })
+
+        async function loadUserData(uid) {
+            try {
+                // Cargar perfil del usuario
+                const profileRef = doc(db, 'profiles', uid)
+                const profileSnap = await getDoc(profileRef)
+                
+                if (profileSnap.exists()) {
+                    const profile = profileSnap.data()
+                    // Aquí podrías usar datos del perfil si es necesario
+                }
+
+                // Inicializar selector de ciudades con opciones predefinidas
+                initializeCiudadSelector()
+                
+                // Cargar ciudades del usuario
+                await loadCiudades(uid)
+                
+                // Cargar estadísticas
+                await loadEstadisticas(uid)
+                
+            } catch (err) {
+                console.error('Error al cargar datos del usuario', err)
+            }
+        }
+
+        async function loadCiudades(uid) {
+            try {
+                const ciudadesRef = collection(db, 'usuarios', uid, 'ciudades')
+                const ciudadesSnap = await getDocs(ciudadesRef)
+                
+                ciudades = []
+                ciudadesSnap.forEach(doc => {
+                    ciudades.push({ id: doc.id, ...doc.data() })
+                })
+
+                // Actualizar selector de ciudades
+                updateCiudadSelector()
+                
+            } catch (err) {
+                console.error('Error al cargar ciudades', err)
+            }
+        }
+
+        async function agregarCiudad(ciudadId) {
+            if (!currentUser) return
+            
+            try {
+                // Obtener el nombre de la ciudad del selector
+                const ciudadOption = ciudadSelector.querySelector(`option[value="${ciudadId}"]`)
+                const nombreCiudad = ciudadOption ? ciudadOption.textContent : ciudadId
+                
+                const ciudadData = {
+                    id: ciudadId,
+                    nombre: nombreCiudad,
+                    createdAt: new Date().toISOString()
+                }
+                
+                // Agregar a Firestore
+                const ciudadRef = doc(db, 'usuarios', currentUser.uid, 'ciudades', ciudadId)
+                await setDoc(ciudadRef, ciudadData)
+                
+                // Agregar a la lista local
+                ciudades.push(ciudadData)
+                
+                // Actualizar el selector
+                updateCiudadSelector()
+                
+                showNotification(`Ciudad ${nombreCiudad} agregada correctamente`)
+                
+            } catch (err) {
+                console.error('Error al agregar ciudad', err)
+                showNotification('Error al agregar ciudad', 'error')
+            }
+        }
+
+        function updateCiudadSelector() {
+            // Mantener la selección actual
+            const currentSelection = ciudadSelector.value
+            
+            // Reinicializar con ciudades predefinidas
+            initializeCiudadSelector()
+            
+            // Agregar ciudades del usuario (si no están ya en las predefinidas)
+            ciudades.forEach(ciudad => {
+                // Verificar si la ciudad ya existe en el selector
+                const existingOption = ciudadSelector.querySelector(`option[value="${ciudad.id}"]`)
+                if (!existingOption) {
+                    const option = document.createElement('option')
+                    option.value = ciudad.id
+                    option.textContent = ciudad.nombre
+                    ciudadSelector.appendChild(option)
+                }
+            })
+            
+            // Restaurar selección si existe
+            if (currentSelection) {
+                ciudadSelector.value = currentSelection
+            }
+        }
+
+        async function loadActividades(ciudadId) {
+            try {
+                const actividadesRef = collection(db, 'usuarios', currentUser.uid, 'ciudades', ciudadId, 'actividades')
+                const actividadesSnap = await getDocs(actividadesRef)
+                
+                actividades = []
+                actividadesSnap.forEach(doc => {
+                    actividades.push({ id: doc.id, ...doc.data() })
+                })
+
+                // Ordenar por fecha y hora
+                actividades.sort((a, b) => {
+                    const fechaA = new Date(`${a.fecha} ${a.hora}`)
+                    const fechaB = new Date(`${b.fecha} ${b.hora}`)
+                    return fechaA - fechaB
+                })
+
+                renderActividades()
+                
+            } catch (err) {
+                console.error('Error al cargar actividades', err)
+            }
+        }
+
+        function renderActividades() {
+            if (actividades.length === 0) {
+                actividadesContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <p class="text-gray-400">No hay actividades programadas en esta ciudad</p>
+                        <p class="text-sm text-gray-500 mt-2">Agrega tu primera actividad</p>
+                    </div>
+                `
+                return
+            }
+
+            actividadesContainer.innerHTML = ''
+            
+            actividades.forEach(actividad => {
+                const actividadElement = document.createElement('div')
+                actividadElement.className = 'bg-gray-800/50 border border-gray-700 rounded-lg p-6 card-hover'
+                actividadElement.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center">
+                                    ${getTipoIcon(actividad.tipo)}
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold">${actividad.nombre}</h3>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-indigo-500/20 text-indigo-400">
+                                        ${actividad.tipo.toUpperCase()}
+                                    </span>
+                                </div>
+                                <p class="text-gray-400 mb-2">${actividad.ubicacion}</p>
+                                <div class="flex items-center space-x-4 text-sm text-gray-500 mb-2">
+                                    <span>📅 ${formatDate(actividad.fecha)}</span>
+                                    <span>🕐 ${actividad.hora}</span>
+                                    <span>⏱️ ${actividad.duracion}h</span>
+                                </div>
+                                ${actividad.descripcion ? `<p class="text-gray-300 mb-2">${actividad.descripcion}</p>` : ''}
+                                ${actividad.notas ? `<p class="text-sm text-gray-400 italic">${actividad.notas}</p>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="editActividad('${actividad.id}')" class="text-blue-400 hover:text-blue-300 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                            </button>
+                            <button onclick="deleteActividad('${actividad.id}')" class="text-red-400 hover:text-red-300 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `
+                actividadesContainer.appendChild(actividadElement)
+            })
+        }
+
+        function getTipoIcon(tipo) {
+            const icons = {
+                turismo: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                </svg>`,
+                gastronomia: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zM6 10h.01M9 10h.01M12 10h.01M15 10h.01M18 10h.01M6 14h.01M9 14h.01M12 14h.01M15 14h.01M18 14h.01"></path>
+                </svg>`,
+                cultura: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>`,
+                naturaleza: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>`,
+                deportes: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>`,
+                shopping: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>`,
+                entretenimiento: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>`,
+                otro: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>`
+            }
+            return icons[tipo] || icons.otro
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString)
+            return date.toLocaleDateString('es-ES', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            })
+        }
+
+        function clearActividades() {
+            actividades = []
+            renderActividades()
+        }
+
+        function hideFormulario() {
+            formularioActividad.style.display = 'none'
+            mostrarFormularioBtn.style.display = 'flex'
+        }
+
+        function resetForm() {
+            actividadForm.reset()
+        }
+
+        async function agregarActividad() {
+            if (!ciudadSelector.value) {
+                showNotification('Selecciona una ciudad primero', 'error')
+                return
+            }
+
+            // Validar campos requeridos
+            if (!nombreActividad.value.trim()) {
+                showNotification('El nombre de la actividad es requerido', 'error')
+                return
+            }
+            if (!fechaActividad.value) {
+                showNotification('La fecha es requerida', 'error')
+                return
+            }
+            if (!horaActividad.value) {
+                showNotification('La hora es requerida', 'error')
+                return
+            }
+            if (!tipoActividad.value) {
+                showNotification('El tipo de actividad es requerido', 'error')
+                return
+            }
+            if (!duracionActividad.value || parseFloat(duracionActividad.value) <= 0) {
+                showNotification('La duración debe ser mayor a 0', 'error')
+                return
+            }
+            if (!ubicacionActividad.value.trim()) {
+                showNotification('La ubicación es requerida', 'error')
+                return
+            }
+
+            try {
+                const actividad = {
+                    nombre: nombreActividad.value.trim(),
+                    fecha: fechaActividad.value,
+                    hora: horaActividad.value,
+                    tipo: tipoActividad.value,
+                    duracion: parseFloat(duracionActividad.value),
+                    ubicacion: ubicacionActividad.value.trim(),
+                    descripcion: descripcionActividad.value.trim(),
+                    notas: notasActividad.value.trim(),
+                    createdAt: new Date().toISOString()
+                }
+
+                const actividadesRef = collection(db, 'usuarios', currentUser.uid, 'ciudades', ciudadSelector.value, 'actividades')
+                await addDoc(actividadesRef, actividad)
+
+                showNotification('Actividad agregada correctamente')
+                hideFormulario()
+                resetForm()
+                loadActividades(ciudadSelector.value)
+                loadEstadisticas(currentUser.uid)
+
+            } catch (err) {
+                console.error('Error al agregar actividad', err)
+                showNotification('Error al agregar actividad', 'error')
+            }
+        }
+
+        async function loadEstadisticas(uid) {
+            try {
+                let totalAct = 0
+                let totalHor = 0
+                let ciudadesUnicas = new Set()
+                let proximoEventoFecha = null
+
+                // Obtener todas las actividades de todas las ciudades
+                const ciudadesRef = collection(db, 'usuarios', uid, 'ciudades')
+                const ciudadesSnap = await getDocs(ciudadesRef)
+
+                for (const ciudadDoc of ciudadesSnap.docs) {
+                    ciudadesUnicas.add(ciudadDoc.id)
+                    const actividadesRef = collection(db, 'usuarios', uid, 'ciudades', ciudadDoc.id, 'actividades')
+                    const actividadesSnap = await getDocs(actividadesRef)
+
+                    actividadesSnap.forEach(doc => {
+                        const actividad = doc.data()
+                        totalAct++
+                        totalHor += actividad.duracion || 0
+
+                        // Encontrar el próximo evento
+                        const fechaEvento = new Date(`${actividad.fecha} ${actividad.hora}`)
+                        const ahora = new Date()
+                        
+                        if (fechaEvento > ahora && (!proximoEventoFecha || fechaEvento < proximoEventoFecha)) {
+                            proximoEventoFecha = fechaEvento
+                        }
+                    })
+                }
+
+                // Actualizar estadísticas
+                totalActividades.textContent = totalAct
+                totalCiudades.textContent = ciudadesUnicas.size
+                totalHoras.textContent = totalHor.toFixed(1)
+                proximoEvento.textContent = proximoEventoFecha ? 
+                    proximoEventoFecha.toLocaleDateString('es-ES', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : '-'
+
+            } catch (err) {
+                console.error('Error al cargar estadísticas', err)
+            }
+        }
+
+        // Funciones globales para editar y eliminar actividades
+        window.editActividad = async function(actividadId) {
+            // Implementar edición de actividad
+            showNotification('Función de edición próximamente disponible', 'info')
+        }
+
+        window.deleteActividad = async function(actividadId) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta actividad?')) {
+                return
+            }
+
+            try {
+                const actividadRef = doc(db, 'usuarios', currentUser.uid, 'ciudades', ciudadSelector.value, 'actividades', actividadId)
+                await deleteDoc(actividadRef)
+
+                showNotification('Actividad eliminada correctamente')
+                loadActividades(ciudadSelector.value)
+                loadEstadisticas(currentUser.uid)
+
+            } catch (err) {
+                console.error('Error al eliminar actividad', err)
+                showNotification('Error al eliminar actividad', 'error')
+            }
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            // Crear elemento de notificación
+            const notification = document.createElement('div')
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-600 text-white' : 
+                type === 'error' ? 'bg-red-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`
+            notification.textContent = message
+            
+            // Agregar al DOM
+            document.body.appendChild(notification)
+            
+            // Animar entrada
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full')
+            }, 100)
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                notification.classList.add('translate-x-full')
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification)
+                    }
+                }, 300)
+            }, 3000)
+        }
+    </script>
+
+</body>
+</html>

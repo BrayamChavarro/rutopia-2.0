@@ -1,0 +1,25 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+.bg-pattern {
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    background-color: #111827;
+}
+.form-container {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+}
+/* Estilos para la transición */
+.form-section {
+    transition: opacity 0.5s, transform 0.5s;
+}
+.hidden-form {
+    opacity: 0;
+    transform: translateY(20px);
+    position: absolute;
+    pointer-events: none;
+}
+
+
+

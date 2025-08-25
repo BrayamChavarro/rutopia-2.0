@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Ubicaciones - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/historial.css">
+</head>
+<body class="bg-gray-900 bg-pattern text-white">
+    <!-- Header / Navegación -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
+                <a href="/historial.html" class="text-indigo-400 font-semibold">Historial</a>
+            </div>
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2">
+                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                </button>
+                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
+                    <div class="border-t border-gray-700 my-1"></div>
+                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-6 py-12">
+        <!-- Sección Hero -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                Historial de <span class="text-indigo-400">Ubicaciones</span>
+            </h1>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+                Revisa todos los lugares que has visitado y guarda tus recuerdos más especiales de cada viaje.
+            </p>
+        </section>
+
+        <!-- Estadísticas del Historial -->
+        <section class="mb-12">
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-indigo-400 mb-2" id="total-ubicaciones">0</div>
+                    <p class="text-gray-400">Ubicaciones Visitadas</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="total-ciudades-historial">0</div>
+                    <p class="text-gray-400">Ciudades Diferentes</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="total-paises">0</div>
+                    <p class="text-gray-400">Países Visitados</p>
+                </div>
+                <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="ultima-visita">-</div>
+                    <p class="text-gray-400">Última Visita</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros y Búsqueda -->
+        <section class="mb-8">
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <input type="text" id="buscar-ubicacion" placeholder="Buscar por nombre o dirección..." 
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="filtro-ciudad" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Todas las ciudades</option>
+                        </select>
+                        <select id="filtro-pais" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Todos los países</option>
+                        </select>
+                        <button id="limpiar-filtros" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Ubicaciones -->
+        <section>
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold">Ubicaciones Visitadas</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-400 text-sm" id="resultados-contador">Mostrando 0 ubicaciones</span>
+                    <button id="agregar-ubicacion" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        <span>Agregar Ubicación</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="ubicaciones-container" class="space-y-6">
+                <!-- Las ubicaciones se cargarán dinámicamente aquí -->
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <p class="text-gray-400">No hay ubicaciones registradas</p>
+                    <p class="text-sm text-gray-500 mt-2">Agrega tu primera ubicación visitada</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para Agregar Ubicación -->
+    <div id="modal-ubicacion" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold">Agregar Nueva Ubicación</h3>
+                <button id="cerrar-modal" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="ubicacion-form" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Nombre del Lugar</label>
+                        <input type="text" id="nombre-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Torre Eiffel" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Ciudad</label>
+                        <input type="text" id="ciudad-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: París" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">País</label>
+                        <input type="text" id="pais-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Francia" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Fecha de Visita</label>
+                        <input type="date" id="fecha-visita" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Dirección Completa</label>
+                    <input type="text" id="direccion-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Champ de Mars, 5 Avenue Anatole France, 75007 París">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">URL de la Foto</label>
+                    <input type="url" id="foto-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://ejemplo.com/foto.jpg">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Descripción</label>
+                    <textarea id="descripcion-lugar" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Describe tu experiencia, qué te gustó, etc."></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-4">
+                    <button type="button" id="cancelar-ubicacion" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                        Agregar Ubicación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '/src/firebase.js'
+        import { onAuthStateChanged, signOut } from 'firebase/auth'
+        import { doc, getDoc, setDoc, collection, addDoc, query, where, getDocs, deleteDoc, orderBy } from 'firebase/firestore'
+
+        // Elementos del DOM
+        const profileButton = document.getElementById('profile-button')
+        const profileMenu = document.getElementById('profile-menu')
+        const logoutLink = document.getElementById('logout-link')
+        const ubicacionesContainer = document.getElementById('ubicaciones-container')
+        const agregarUbicacionBtn = document.getElementById('agregar-ubicacion')
+        const modalUbicacion = document.getElementById('modal-ubicacion')
+        const cerrarModal = document.getElementById('cerrar-modal')
+        const cancelarUbicacion = document.getElementById('cancelar-ubicacion')
+        const ubicacionForm = document.getElementById('ubicacion-form')
+        const buscarUbicacion = document.getElementById('buscar-ubicacion')
+        const filtroCiudad = document.getElementById('filtro-ciudad')
+        const filtroPais = document.getElementById('filtro-pais')
+        const limpiarFiltros = document.getElementById('limpiar-filtros')
+        const resultadosContador = document.getElementById('resultados-contador')
+
+        // Elementos de estadísticas
+        const totalUbicaciones = document.getElementById('total-ubicaciones')
+        const totalCiudadesHistorial = document.getElementById('total-ciudades-historial')
+        const totalPaises = document.getElementById('total-paises')
+        const ultimaVisita = document.getElementById('ultima-visita')
+
+        // Elementos del formulario
+        const nombreLugar = document.getElementById('nombre-lugar')
+        const ciudadLugar = document.getElementById('ciudad-lugar')
+        const paisLugar = document.getElementById('pais-lugar')
+        const fechaVisita = document.getElementById('fecha-visita')
+        const direccionLugar = document.getElementById('direccion-lugar')
+        const fotoLugar = document.getElementById('foto-lugar')
+        const descripcionLugar = document.getElementById('descripcion-lugar')
+
+        let currentUser = null
+        let ubicaciones = []
+        let ubicacionesFiltradas = []
+
+        // Establecer fecha máxima como hoy
+        const today = new Date().toISOString().split('T')[0]
+        fechaVisita.max = today
+
+        // Si no hay usuario autenticado, regresar al login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/login.html'
+                return
+            }
+            currentUser = user
+            loadUbicaciones(user.uid)
+        })
+
+        // Event listeners para el menú de perfil
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('hidden')
+        })
+
+        window.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden')
+            }
+        })
+
+        logoutLink.addEventListener('click', async (e) => {
+            e.preventDefault()
+            try {
+                await signOut(auth)
+                window.location.href = '/login.html'
+            } catch (err) {
+                console.error('Error al cerrar sesión', err)
+            }
+        })
+
+        // Event listeners para el modal
+        agregarUbicacionBtn.addEventListener('click', () => {
+            modalUbicacion.classList.remove('hidden')
+        })
+
+        cerrarModal.addEventListener('click', () => {
+            modalUbicacion.classList.add('hidden')
+            resetForm()
+        })
+
+        cancelarUbicacion.addEventListener('click', () => {
+            modalUbicacion.classList.add('hidden')
+            resetForm()
+        })
+
+        // Cerrar modal al hacer click fuera
+        modalUbicacion.addEventListener('click', (e) => {
+            if (e.target === modalUbicacion) {
+                modalUbicacion.classList.add('hidden')
+                resetForm()
+            }
+        })
+
+        // Event listeners para filtros
+        buscarUbicacion.addEventListener('input', filtrarUbicaciones)
+        filtroCiudad.addEventListener('change', filtrarUbicaciones)
+        filtroPais.addEventListener('change', filtrarUbicaciones)
+        limpiarFiltros.addEventListener('click', limpiarFiltrosFuncion)
+
+        // Event listener para el formulario
+        ubicacionForm.addEventListener('submit', async (e) => {
+            e.preventDefault()
+            await agregarUbicacion()
+        })
+
+        async function loadUbicaciones(uid) {
+            try {
+                const ubicacionesRef = collection(db, 'usuarios', uid, 'ubicaciones')
+                const q = query(ubicacionesRef, orderBy('fechaVisita', 'desc'))
+                const ubicacionesSnap = await getDocs(q)
+                
+                ubicaciones = []
+                ubicacionesSnap.forEach(doc => {
+                    ubicaciones.push({ id: doc.id, ...doc.data() })
+                })
+
+                ubicacionesFiltradas = [...ubicaciones]
+                renderUbicaciones()
+                actualizarEstadisticas()
+                actualizarFiltros()
+            } catch (err) {
+                console.error('Error al cargar ubicaciones', err)
+            }
+        }
+
+        function renderUbicaciones() {
+            if (ubicacionesFiltradas.length === 0) {
+                ubicacionesContainer.innerHTML = `
+                    <div class="text-center py-12">
+                        <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <p class="text-gray-400">No se encontraron ubicaciones</p>
+                        <p class="text-sm text-gray-500 mt-2">Intenta ajustar los filtros o agrega una nueva ubicación</p>
+                    </div>
+                `
+                return
+            }
+
+            ubicacionesContainer.innerHTML = ''
+            ubicacionesFiltradas.forEach(ubicacion => {
+                const ubicacionElement = document.createElement('div')
+                ubicacionElement.className = 'bg-gray-800/50 border border-gray-700 rounded-lg p-6 card-hover'
+                ubicacionElement.innerHTML = `
+                    <div class="flex items-start space-x-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-24 h-24 rounded-lg overflow-hidden bg-gray-700">
+                                ${ubicacion.foto ? 
+                                    `<img src="${ubicacion.foto}" alt="${ubicacion.nombre}" class="w-full h-full object-cover">` :
+                                    `<div class="w-full h-full flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>`
+                                }
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-1">${ubicacion.nombre}</h3>
+                                    <p class="text-gray-400 mb-1">${ubicacion.ciudad}, ${ubicacion.pais}</p>
+                                    ${ubicacion.direccion ? `<p class="text-sm text-gray-500">${ubicacion.direccion}</p>` : ''}
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="editUbicacion('${ubicacion.id}')" class="text-blue-400 hover:text-blue-300 transition">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                        </svg>
+                                    </button>
+                                    <button onclick="deleteUbicacion('${ubicacion.id}')" class="text-red-400 hover:text-red-300 transition">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                                <span>📅 ${formatDate(ubicacion.fechaVisita)}</span>
+                                <span>📍 ${ubicacion.ciudad}</span>
+                                <span>🌍 ${ubicacion.pais}</span>
+                            </div>
+                            ${ubicacion.descripcion ? `<p class="text-gray-300">${ubicacion.descripcion}</p>` : ''}
+                        </div>
+                    </div>
+                `
+                ubicacionesContainer.appendChild(ubicacionElement)
+            })
+
+            resultadosContador.textContent = `Mostrando ${ubicacionesFiltradas.length} ubicación${ubicacionesFiltradas.length !== 1 ? 'es' : ''}`
+        }
+
+        function filtrarUbicaciones() {
+            const busqueda = buscarUbicacion.value.toLowerCase()
+            const ciudadFiltro = filtroCiudad.value
+            const paisFiltro = filtroPais.value
+
+            ubicacionesFiltradas = ubicaciones.filter(ubicacion => {
+                const coincideBusqueda = !busqueda || 
+                    ubicacion.nombre.toLowerCase().includes(busqueda) ||
+                    ubicacion.direccion?.toLowerCase().includes(busqueda) ||
+                    ubicacion.ciudad.toLowerCase().includes(busqueda) ||
+                    ubicacion.pais.toLowerCase().includes(busqueda)
+
+                const coincideCiudad = !ciudadFiltro || ubicacion.ciudad === ciudadFiltro
+                const coincidePais = !paisFiltro || ubicacion.pais === paisFiltro
+
+                return coincideBusqueda && coincideCiudad && coincidePais
+            })
+
+            renderUbicaciones()
+        }
+
+        function limpiarFiltrosFuncion() {
+            buscarUbicacion.value = ''
+            filtroCiudad.value = ''
+            filtroPais.value = ''
+            ubicacionesFiltradas = [...ubicaciones]
+            renderUbicaciones()
+        }
+
+        function actualizarFiltros() {
+            const ciudades = [...new Set(ubicaciones.map(u => u.ciudad))]
+            const paises = [...new Set(ubicaciones.map(u => u.pais))]
+
+            // Actualizar filtro de ciudades
+            filtroCiudad.innerHTML = '<option value="">Todas las ciudades</option>'
+            ciudades.forEach(ciudad => {
+                const option = document.createElement('option')
+                option.value = ciudad
+                option.textContent = ciudad
+                filtroCiudad.appendChild(option)
+            })
+
+            // Actualizar filtro de países
+            filtroPais.innerHTML = '<option value="">Todos los países</option>'
+            paises.forEach(pais => {
+                const option = document.createElement('option')
+                option.value = pais
+                option.textContent = pais
+                filtroPais.appendChild(option)
+            })
+        }
+
+        function actualizarEstadisticas() {
+            const ciudadesUnicas = new Set(ubicaciones.map(u => u.ciudad))
+            const paisesUnicos = new Set(ubicaciones.map(u => u.pais))
+            
+            totalUbicaciones.textContent = ubicaciones.length
+            totalCiudadesHistorial.textContent = ciudadesUnicas.size
+            totalPaises.textContent = paisesUnicos.size
+
+            if (ubicaciones.length > 0) {
+                const ultimaUbicacion = ubicaciones[0] // Ya está ordenado por fecha descendente
+                ultimaVisita.textContent = formatDate(ultimaUbicacion.fechaVisita)
+            } else {
+                ultimaVisita.textContent = '-'
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString)
+            return date.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            })
+        }
+
+        function resetForm() {
+            ubicacionForm.reset()
+        }
+
+        async function agregarUbicacion() {
+            try {
+                const ubicacion = {
+                    nombre: nombreLugar.value,
+                    ciudad: ciudadLugar.value,
+                    pais: paisLugar.value,
+                    fechaVisita: fechaVisita.value,
+                    direccion: direccionLugar.value || null,
+                    foto: fotoLugar.value || null,
+                    descripcion: descripcionLugar.value || null,
+                    createdAt: new Date().toISOString()
+                }
+
+                const ubicacionesRef = collection(db, 'usuarios', currentUser.uid, 'ubicaciones')
+                await addDoc(ubicacionesRef, ubicacion)
+
+                showNotification('Ubicación agregada correctamente')
+                modalUbicacion.classList.add('hidden')
+                resetForm()
+                loadUbicaciones(currentUser.uid)
+            } catch (err) {
+                console.error('Error al agregar ubicación', err)
+                showNotification('Error al agregar ubicación', 'error')
+            }
+        }
+
+        // Funciones globales para editar y eliminar
+        window.editUbicacion = function(ubicacionId) {
+            // Implementar edición de ubicación
+            showNotification('Función de edición en desarrollo', 'info')
+        }
+
+        window.deleteUbicacion = async function(ubicacionId) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta ubicación?')) {
+                try {
+                    const ubicacionRef = doc(db, 'usuarios', currentUser.uid, 'ubicaciones', ubicacionId)
+                    await deleteDoc(ubicacionRef)
+                    showNotification('Ubicación eliminada correctamente')
+                    loadUbicaciones(currentUser.uid)
+                } catch (err) {
+                    console.error('Error al eliminar ubicación', err)
+                    showNotification('Error al eliminar ubicación', 'error')
+                }
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            // Crear notificación
+            const notification = document.createElement('div')
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-600' :
+                type === 'error' ? 'bg-red-600' :
+                type === 'info' ? 'bg-blue-600' : 'bg-gray-600'
+            }`
+            notification.textContent = message
+
+            document.body.appendChild(notification)
+
+            // Animar entrada
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full')
+            }, 100)
+
+            // Animar salida
+            setTimeout(() => {
+                notification.classList.add('translate-x-full')
+                setTimeout(() => {
+                    document.body.removeChild(notification)
+                }, 300)
+            }, 3000)
+        }
+    </script>
+</body>
+</html> 

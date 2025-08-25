@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="bg-gray-900 bg-pattern text-white">
+
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl w-full">
+
+            <!-- Columna de bienvenida -->
+            <div class="flex flex-col justify-center items-start text-left p-8">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                    Tu próxima <span class="text-indigo-400">aventura</span> te espera.
+                </h1>
+                <p class="text-gray-300 text-lg mb-8">
+                    Únete a Rutopia y descubre destinos increíbles, comparte tus experiencias y conecta con otros viajeros apasionados.
+                </p>
+                <div class="flex space-x-4">
+                     <img src="https://placehold.co/100x100/1f2937/a78bfa?text=R" alt="Imagen de un viajero en una montaña" class="w-24 h-24 rounded-full object-cover border-4 border-gray-700">
+                     <img src="https://placehold.co/100x100/1f2937/a78bfa?text=U" alt="Mapa del mundo estilizado" class="w-24 h-24 rounded-full object-cover border-4 border-gray-700">
+                     <img src="https://placehold.co/100x100/1f2937/a78bfa?text=T" alt="Brújula antigua" class="w-24 h-24 rounded-full object-cover border-4 border-gray-700">
+                </div>
+            </div>
+
+            <!-- Columna del formulario -->
+            <div class="w-full max-w-md mx-auto">
+                <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 shadow-2xl form-container relative overflow-hidden">
+                    
+                    <!-- Formulario de Login -->
+                    <div id="login-form" class="form-section">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-white" id="t-login-title">Bienvenido a Rutopia</h2>
+                            <p class="text-gray-400" id="t-login-subtitle">Inicia sesión para continuar</p>
+                        </div>
+
+                        <form>
+                            <div class="mb-4">
+                                <label for="login-email" id="t-login-email" class="block text-gray-300 text-sm font-medium mb-2">Correo Electrónico</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <label for="login-password" id="t-login-password" class="block text-gray-300 text-sm font-medium">Contraseña</label>
+                                    <a href="#" id="t-login-forgot" class="text-sm text-indigo-400 hover:text-indigo-300">¿Olvidaste tu contraseña?</a>
+                                </div>
+                                <input type="password" id="login-password" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" id="t-login-signin" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105">Iniciar Sesión</button>
+                            <div class="my-6 flex items-center">
+                                <div class="flex-grow border-t border-gray-600"></div>
+                                <span id="t-login-or" class="mx-4 text-gray-400 text-sm">O</span>
+                                <div class="flex-grow border-t border-gray-600"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                               <button type="button" id="google-signin" class="w-full flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" fill="#FFC107"/><path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" fill-opacity="0.1" fill="#FFFFFF"/><path d="M24 46c5.9 0 11.2-2 15.1-5.4l-6.4-6.4C30.1 37 27.1 38 24 38c-4.4 0-8.2-2.7-9.8-6.5l-6.7 5.2C10.2 42.6 16.6 46 24 46z" fill="#4CAF50"/><path d="M24 46c5.9 0 11.2-2 15.1-5.4l-6.4-6.4C30.1 37 27.1 38 24 38c-4.4 0-8.2-2.7-9.8-6.5l-6.7 5.2C10.2 42.6 16.6 46 24 46z" fill-opacity="0.1" fill="#FFFFFF"/><path d="M43.6 29.2c2.2-2.8 3.4-6.4 3.4-10.2C47 13.5 42.3 8.2 36.5 5.1l-6.4 6.4C32.1 10.1 34 8 34 8s-4.6 4.3-7.9 8.2c-1.8 2.2-3.2 4.8-4.1 7.6l15.6-1.6z" fill="#1976D2"/></svg>
+                                <span id="t-login-google">Continuar con Google</span>
+                            </button>
+                            <button type="button" class="w-full flex items-center justify-center bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition duration-200">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10 0C4.477 0 0 4.477 0 10c0 4.332 2.765 8.01 6.58 9.34a.75.75 0 00.74-.035c.29-.117.48-.405.48-.725V15.5a.75.75 0 00-.75-.75h-1.5a.75.75 0 000 1.5h.75v2.22c0 .24-.13.46-.34.59-.21.13-.48.14-.7.03A8.5 8.5 0 1110 1.5a8.46 8.46 0 016.01 2.49.75.75 0 101.06-1.06A9.96 9.96 0 0010 0zm4.5 12.5a.75.75 0 00-1.5 0v1.334c-.42.13-.82.31-1.2.52a.75.75 0 00-.6 1.36c.5.28 1.04.5 1.6.65.8.21 1.4.52 1.7 1.01.3.5-.1.97-.6 1.12a.75.75 0 00.3 1.47c1.4-.4 2.3-1.53 2.3-2.96v-3.5a.75.75 0 00-.75-.75z"></path></svg>
+                                Apple
+                            </button>
+                            </div>
+                        </form>
+                        <p class="text-center text-gray-400 text-sm mt-8">
+                            <span id="t-login-noaccount">¿No tienes una cuenta?</span> <a href="#" id="show-register" class="font-medium text-indigo-400 hover:text-indigo-300"><span id="t-login-register">Regístrate</span></a>
+                        </p>
+                    </div>
+
+                    <!-- Formulario de Registro -->
+                    <div id="register-form" class="form-section hidden-form">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-bold text-white" id="t-reg-title">Crea tu cuenta</h2>
+                            <p class="text-gray-400" id="t-reg-subtitle">Únete a la comunidad de viajeros</p>
+                        </div>
+                        <form>
+                            <div class="mb-4">
+                                <label for="register-name" id="t-reg-name" class="block text-gray-300 text-sm font-medium mb-2">Nombre Completo</label>
+                                <input type="text" id="register-name" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tu nombre" required>
+                            </div>
+                             <div class="mb-4">
+                                <label for="register-email" id="t-reg-email" class="block text-gray-300 text-sm font-medium mb-2">Correo Electrónico</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="register-password" id="t-reg-password" class="block text-gray-300 text-sm font-medium mb-2">Contraseña</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" id="t-reg-create" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 transform hover:scale-105">Crear Cuenta</button>
+                        </form>
+                        <p class="text-center text-gray-400 text-sm mt-8">
+                            <span id="t-reg-have">¿Ya tienes una cuenta?</span> <a href="#" id="show-login" class="font-medium text-indigo-400 hover:text-indigo-300"><span id="t-reg-login">Inicia Sesión</span></a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module" src="js/login.js"></script>
+
+</body>
+</html>
+    <!-- Botones de idioma -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2">
+        <button onclick="setLanguage('es')" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-indigo-500 transition">ES</button>
+        <button onclick="setLanguage('en')" class="px-3 py-1 rounded bg-gray-700 text-white hover:bg-indigo-500 transition">EN</button>
+    </div>

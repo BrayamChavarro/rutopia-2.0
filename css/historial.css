@@ -1,0 +1,192 @@
+/* Estilos personalizados para la página de historial */
+
+/* Animaciones para las tarjetas de ubicaciones */
+.card-hover {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+/* Animación para las imágenes de ubicaciones */
+.card-hover img {
+    transition: transform 0.3s ease;
+}
+
+.card-hover:hover img {
+    transform: scale(1.05);
+}
+
+/* Estilos para el modal */
+#modal-ubicacion {
+    backdrop-filter: blur(8px);
+}
+
+/* Animación para las notificaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Estilos para los filtros */
+#buscar-ubicacion:focus,
+#filtro-ciudad:focus,
+#filtro-pais:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Estilos para las estadísticas */
+.bg-gray-800\/50 {
+    transition: all 0.3s ease;
+}
+
+.bg-gray-800\/50:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-hover {
+        margin-bottom: 1rem;
+    }
+    
+    #modal-ubicacion .bg-gray-800 {
+        margin: 1rem;
+        max-height: calc(100vh - 2rem);
+    }
+}
+
+/* Estilos para el estado vacío */
+.text-center.py-12 svg {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Estilos para los botones de acción */
+button[onclick*="editUbicacion"],
+button[onclick*="deleteUbicacion"] {
+    transition: all 0.2s ease;
+}
+
+button[onclick*="editUbicacion"]:hover,
+button[onclick*="deleteUbicacion"]:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para el contador de resultados */
+#resultados-contador {
+    font-size: 0.875rem;
+    color: #9ca3af;
+}
+
+/* Estilos para las fechas */
+.text-sm.text-gray-500 span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Estilos para las descripciones */
+.text-gray-300 {
+    line-height: 1.6;
+}
+
+/* Estilos para el formulario del modal */
+#ubicacion-form input:focus,
+#ubicacion-form textarea:focus,
+#ubicacion-form select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Estilos para los botones del formulario */
+#ubicacion-form button[type="submit"] {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    transition: all 0.3s ease;
+}
+
+#ubicacion-form button[type="submit"]:hover {
+    background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+    transform: translateY(-1px);
+}
+
+/* Estilos para el botón de agregar ubicación */
+#agregar-ubicacion {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    transition: all 0.3s ease;
+}
+
+#agregar-ubicacion:hover {
+    background: linear-gradient(135deg, #5855eb 0%, #7c3aed 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Estilos para el botón limpiar filtros */
+#limpiar-filtros {
+    transition: all 0.3s ease;
+}
+
+#limpiar-filtros:hover {
+    background-color: #4b5563;
+    transform: translateY(-1px);
+}
+
+/* Estilos para las imágenes de ubicaciones */
+.card-hover .w-24.h-24 img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Estilos para el placeholder de imagen */
+.card-hover .w-24.h-24 .flex {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+}
+
+/* Estilos para el título de la página */
+.text-4xl.md\:text-6xl {
+    background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Estilos para el texto destacado */
+.text-indigo-400 {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+} 

@@ -1,0 +1,53 @@
+{
+  "welcome": "Welcome",
+  "app": {
+    "welcomeHeadlinePart1": "Your next",
+    "welcomeHeadlineHighlight": "adventure",
+    "welcomeHeadlinePart2": "awaits you.",
+    "loginTitle": "Welcome to Rutopia",
+    "loginSubtitle": "Continue with your Google account",
+    "continueWithGoogle": "Continue with Google",
+    "completeProfileTitle": "Complete your profile",
+    "completeProfileDesc": "Tell us your country and city of origin and some of your tastes.",
+    "basicInfo": "Basic information",
+    "session": "Session",
+    "country": "Country",
+    "city": "City of origin",
+    "tastes": "Tastes (comma separated)",
+    "saveAndContinue": "Save and continue"
+  ,
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "registerTitle": "Create your account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "registerLink": "Register",
+    "loginLink": "Sign in",
+    "or": "OR",
+    "createAccount": "Create Account"
+  }
+  ,
+  "login": {
+    "title": "Welcome to Rutopia",
+    "subtitle": "Sign in to continue",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "forgot": "Forgot your password?",
+    "signIn": "Sign in",
+    "or": "OR",
+    "continueWithGoogle": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Register"
+  },
+  "register": {
+    "title": "Create your account",
+    "subtitle": "Join the community of travelers",
+    "nameLabel": "Full Name",
+    "createAccount": "Create Account",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Sign in"
+  }
+}
+
+

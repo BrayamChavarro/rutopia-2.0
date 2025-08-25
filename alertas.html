@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas de Seguridad - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/alertas.css">
+</head>
+<body class="bg-gray-900 bg-pattern text-white">
+
+    <!-- Header / Navegación -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
+                <a href="/alertas.html" class="text-indigo-400 font-semibold">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+            </div>
+            <div class="relative">
+                <button id="profile-button" class="flex items-center space-x-2">
+                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                </button>
+                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
+                    <div class="border-t border-gray-700 my-1"></div>
+                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Sección Hero -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                Alertas de <span class="text-red-400">Seguridad</span>
+            </h1>
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+                Mantente informado sobre zonas con problemas de tráfico, fenómenos naturales o situaciones de seguridad en tiempo real.
+            </p>
+        </section>
+
+        <!-- Configuración de Notificaciones -->
+        <section class="mb-12">
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold mb-2">Configuración de Notificaciones</h2>
+                        <p class="text-gray-400">Activa o desactiva las alertas según tus preferencias</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-400">Notificaciones</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notifications-toggle" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gray-700/50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Tráfico</h3>
+                            <label class="toggle-switch small">
+                                <input type="checkbox" id="traffic-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-400">Alertas sobre congestiones viales y accidentes</p>
+                        <div class="mt-2">
+                            <span id="traffic-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-700/50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Fenómenos Naturales</h3>
+                            <label class="toggle-switch small">
+                                <input type="checkbox" id="natural-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-400">Alertas sobre terremotos, huracanes, etc.</p>
+                        <div class="mt-2">
+                            <span id="natural-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-700/50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold">Seguridad</h3>
+                            <label class="toggle-switch small">
+                                <input type="checkbox" id="security-toggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-400">Alertas sobre zonas de riesgo</p>
+                        <div class="mt-2">
+                            <span id="security-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alertas Activas -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-8">Alertas Activas</h2>
+            <div id="alertas-container" class="space-y-4">
+                <!-- Las alertas se cargarán dinámicamente aquí -->
+            </div>
+        </section>
+
+        <!-- Mapa de Zonas -->
+        <section>
+            <h2 class="text-3xl font-bold mb-8">Mapa de Zonas</h2>
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+                <div class="aspect-video bg-gray-700 rounded-lg flex items-center justify-center">
+                    <div class="text-center">
+                        <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                        </svg>
+                        <p class="text-gray-400">Mapa interactivo de zonas con alertas</p>
+                        <p class="text-sm text-gray-500 mt-2">Próximamente: Integración con mapas en tiempo real</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from '/src/firebase.js'
+        import { onAuthStateChanged, signOut } from 'firebase/auth'
+        import { doc, getDoc, setDoc } from 'firebase/firestore'
+
+        const profileButton = document.getElementById('profile-button')
+        const profileMenu = document.getElementById('profile-menu')
+        const logoutLink = document.getElementById('logout-link')
+        const notificationsToggle = document.getElementById('notifications-toggle')
+        const trafficToggle = document.getElementById('traffic-toggle')
+        const naturalToggle = document.getElementById('natural-toggle')
+        const securityToggle = document.getElementById('security-toggle')
+        const alertasContainer = document.getElementById('alertas-container')
+        const trafficStatus = document.getElementById('traffic-status')
+        const naturalStatus = document.getElementById('natural-status')
+        const securityStatus = document.getElementById('security-status')
+
+        let currentUser = null
+
+        // Datos de ejemplo para las alertas
+        const alertasEjemplo = [
+            {
+                id: 1,
+                tipo: 'traffic',
+                titulo: 'Congestión Vial',
+                ubicacion: 'Centro Histórico, CDMX',
+                descripcion: 'Tráfico pesado en Av. Juárez debido a manifestación',
+                severidad: 'media',
+                tiempo: 'Hace 15 min'
+            },
+            {
+                id: 2,
+                tipo: 'natural',
+                titulo: 'Alerta Sísmica',
+                ubicacion: 'Zona Metropolitana',
+                descripcion: 'Sismo de 4.2 grados detectado en la región',
+                severidad: 'alta',
+                tiempo: 'Hace 5 min'
+            },
+            {
+                id: 3,
+                tipo: 'security',
+                titulo: 'Zona de Riesgo',
+                ubicacion: 'Tepito, CDMX',
+                descripcion: 'Reportes de actividad sospechosa en la zona',
+                severidad: 'alta',
+                tiempo: 'Hace 30 min'
+            }
+        ]
+
+        function getSeveridadColor(severidad) {
+            switch(severidad) {
+                case 'baja': return 'bg-green-500'
+                case 'media': return 'bg-yellow-500'
+                case 'alta': return 'bg-red-500'
+                default: return 'bg-gray-500'
+            }
+        }
+
+        function getTipoIcon(tipo) {
+            switch(tipo) {
+                case 'traffic':
+                    return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>`
+                case 'natural':
+                    return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>`
+                case 'security':
+                    return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>`
+                default:
+                    return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>`
+            }
+        }
+
+        function renderAlertas() {
+            alertasContainer.innerHTML = ''
+            
+            alertasEjemplo.forEach(alerta => {
+                const alertaElement = document.createElement('div')
+                alertaElement.className = 'bg-gray-800/50 border border-gray-700 rounded-lg p-6 card-hover'
+                alertaElement.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center">
+                                    ${getTipoIcon(alerta.tipo)}
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold">${alerta.titulo}</h3>
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full ${getSeveridadColor(alerta.severidad)}">
+                                        ${alerta.severidad.toUpperCase()}
+                                    </span>
+                                </div>
+                                <p class="text-gray-400 mb-2">${alerta.ubicacion}</p>
+                                <p class="text-gray-300">${alerta.descripcion}</p>
+                                <p class="text-sm text-gray-500 mt-3">${alerta.tiempo}</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-white transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `
+                alertasContainer.appendChild(alertaElement)
+            })
+        }
+
+        // Si no hay usuario autenticado, regresar al login
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '/login.html'
+                return
+            }
+            currentUser = user
+            
+            // Cargar configuración guardada
+            loadAlertSettings(user.uid)
+            
+            // Renderizar alertas
+            renderAlertas()
+            
+            // Inicializar indicadores de estado
+            updateStatusIndicators()
+        })
+
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('hidden')
+        })
+
+        // Cerrar el menú al hacer click fuera
+        window.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden')
+            }
+        })
+
+        // Cerrar sesión
+        logoutLink.addEventListener('click', async (e) => {
+            e.preventDefault()
+            try {
+                await signOut(auth)
+                window.location.href = '/login.html'
+            } catch (err) {
+                console.error('Error al cerrar sesión', err)
+            }
+        })
+
+        // Event listeners para los toggles
+        notificationsToggle.addEventListener('change', () => {
+            updateToggleVisualState()
+            updateStatusIndicators()
+            saveAlertSettings()
+        })
+
+        trafficToggle.addEventListener('change', () => {
+            updateToggleVisualState()
+            updateStatusIndicators()
+            saveAlertSettings()
+        })
+
+        naturalToggle.addEventListener('change', () => {
+            updateToggleVisualState()
+            updateStatusIndicators()
+            saveAlertSettings()
+        })
+
+        securityToggle.addEventListener('change', () => {
+            updateToggleVisualState()
+            updateStatusIndicators()
+            saveAlertSettings()
+        })
+
+        // Función para actualizar el estado visual de los toggles
+        function updateToggleVisualState() {
+            // Forzar la actualización visual de los toggles
+            const toggles = [notificationsToggle, trafficToggle, naturalToggle, securityToggle]
+            toggles.forEach(toggle => {
+                // Trigger reflow para forzar la actualización visual
+                toggle.style.display = 'none'
+                toggle.offsetHeight // Trigger reflow
+                toggle.style.display = ''
+            })
+        }
+
+        // Función para actualizar los indicadores de estado
+        function updateStatusIndicators() {
+            // Actualizar indicador de tráfico
+            if (trafficStatus) {
+                if (trafficToggle.checked) {
+                    trafficStatus.textContent = 'Activo'
+                    trafficStatus.className = 'text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400'
+                } else {
+                    trafficStatus.textContent = 'Inactivo'
+                    trafficStatus.className = 'text-xs px-2 py-1 rounded-full bg-red-500/20 text-red-400'
+                }
+            }
+
+            // Actualizar indicador de fenómenos naturales
+            if (naturalStatus) {
+                if (naturalToggle.checked) {
+                    naturalStatus.textContent = 'Activo'
+                    naturalStatus.className = 'text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400'
+                } else {
+                    naturalStatus.textContent = 'Inactivo'
+                    naturalStatus.className = 'text-xs px-2 py-1 rounded-full bg-red-500/20 text-red-400'
+                }
+            }
+
+            // Actualizar indicador de seguridad
+            if (securityStatus) {
+                if (securityToggle.checked) {
+                    securityStatus.textContent = 'Activo'
+                    securityStatus.className = 'text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400'
+                } else {
+                    securityStatus.textContent = 'Inactivo'
+                    securityStatus.className = 'text-xs px-2 py-1 rounded-full bg-red-500/20 text-red-400'
+                }
+            }
+        }
+
+        async function loadAlertSettings(uid) {
+            try {
+                const ref = doc(db, 'alertSettings', uid)
+                const snap = await getDoc(ref)
+                if (snap.exists()) {
+                    const settings = snap.data()
+                    notificationsToggle.checked = settings.notificationsEnabled ?? true
+                    trafficToggle.checked = settings.trafficEnabled ?? true
+                    naturalToggle.checked = settings.naturalEnabled ?? true
+                    securityToggle.checked = settings.securityEnabled ?? true
+                }
+                // Actualizar el estado visual después de cargar
+                updateToggleVisualState()
+                updateStatusIndicators()
+            } catch (err) {
+                console.error('Error al cargar configuración de alertas', err)
+            }
+        }
+
+        async function saveAlertSettings() {
+            if (!currentUser) return
+            
+            try {
+                const settings = {
+                    notificationsEnabled: notificationsToggle.checked,
+                    trafficEnabled: trafficToggle.checked,
+                    naturalEnabled: naturalToggle.checked,
+                    securityEnabled: securityToggle.checked,
+                    updatedAt: new Date().toISOString()
+                }
+                
+                await setDoc(doc(db, 'alertSettings', currentUser.uid), settings, { merge: true })
+                console.log('Configuración de alertas guardada')
+                
+                // Mostrar mensaje de confirmación temporal
+                showNotification('Configuración guardada correctamente')
+            } catch (err) {
+                console.error('Error al guardar configuración de alertas', err)
+                showNotification('Error al guardar configuración', 'error')
+            }
+        }
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            // Crear elemento de notificación
+            const notification = document.createElement('div')
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${
+                type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+            }`
+            notification.textContent = message
+            
+            // Agregar al DOM
+            document.body.appendChild(notification)
+            
+            // Animar entrada
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full')
+            }, 100)
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                notification.classList.add('translate-x-full')
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification)
+                    }
+                }, 300)
+            }, 3000)
+        }
+    </script>
+
+</body>
+</html> 
