@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Rutopia</title>
+    <title data-i18n="home.welcomeTitle">Home - Rutopia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/home.css">
-    
+    <script src="js/i18n-browser.js"></script>
 </head>
 <body class="bg-gray-900 bg-pattern text-white">
 
@@ -18,23 +18,32 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-white">Rutopia</a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="#" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
-                
-                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
-                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
-                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
-                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+                <a href="#" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.home">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.alerts">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.itinerary">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.destinations">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.history">Historial</a>
             </div>
-            <div class="relative">
-                <button id="profile-button" class="flex items-center space-x-2">
-                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
-                </button>
-                <!-- Menú Desplegable del Perfil -->
-                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
-                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
-                    <div class="border-t border-gray-700 my-1"></div>
-                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+            <div class="flex items-center space-x-4">
+                <!-- Selector de idioma -->
+                <div class="language-selector">
+                    <select id="languageSelector" class="px-3 py-1 border border-gray-600 bg-gray-700 text-white rounded-lg text-sm">
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="en">🇺🇸 English</option>
+                    </select>
+                </div>
+                
+                <div class="relative">
+                    <button id="profile-button" class="flex items-center space-x-2">
+                        <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                    </button>
+                    <!-- Menú Desplegable del Perfil -->
+                    <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                        <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.profile">Mi Perfil</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.settings">Configuración</a>
+                        <div class="border-t border-gray-700 my-1"></div>
+                        <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.logout">Cerrar Sesión</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -46,15 +55,15 @@
         <!-- Sección Hero -->
         <section class="text-center mb-20">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                Encuentra tu <span class="text-indigo-400">lugar perfecto</span>
+                <span data-i18n="home.welcomeTitle">Bienvenido a</span> <span class="text-indigo-400" data-i18n="home.welcomeHighlight">Rutopia</span>
             </h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
-                Explora hoteles únicos y destinos inolvidables seleccionados por nuestra comunidad de viajeros.
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8" data-i18n="home.welcomeSubtitle">
+                Tu compañero de viaje inteligente para explorar el mundo de manera segura y personalizada.
             </p>
             <div class="max-w-xl mx-auto">
                 <div class="relative">
-                    <input type="search" placeholder="Busca un destino o un hotel..." class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-full">Buscar</button>
+                    <input type="search" data-i18n="common.search" placeholder="Busca un destino..." class="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-full" data-i18n="common.search">Buscar</button>
                 </div>
             </div>
         </section>
@@ -145,12 +154,12 @@
         <!-- Sección de Alertas Rápidas -->
         <section class="mt-20">
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold">Alertas Importantes</h2>
+                <h2 class="text-3xl font-bold" data-i18n="home.recentAlertsTitle">Alertas Importantes</h2>
                 <a href="/alertas.html" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition flex items-center space-x-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                     </svg>
-                    <span>Ver Todas</span>
+                    <span data-i18n="home.viewAllAlerts">Ver Todas</span>
                 </a>
             </div>
             <div id="alertas-rapidas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -163,7 +172,7 @@
     <!-- Footer -->
     <footer class="border-t border-gray-700 mt-20">
         <div class="container mx-auto px-6 py-8 text-center text-gray-400">
-            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+            <p>&copy; 2025 Rutopia. <span data-i18n="home.footer">Todos los derechos reservados</span>.</p>
         </div>
     </footer>
 
@@ -389,6 +398,20 @@
                 alertasRapidasEl.appendChild(alertaElement)
             })
         }
+    </script>
+
+    <!-- Inicialización de i18n -->
+    <script>
+        // Inicializar traducciones cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar el selector de idioma
+            i18n.initLanguageSelector();
+            
+            // Aplicar traducciones iniciales después de un pequeño delay
+            setTimeout(() => {
+                i18n.translatePage();
+            }, 100);
+        });
     </script>
 
 </body>

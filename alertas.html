@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alertas de Seguridad - Rutopia</title>
+    <title data-i18n="alerts.title">Alertas de Seguridad</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/alertas.css">
+    <link rel="stylesheet" href="css/alertas-map.css">
+    <script src="js/i18n-browser.js"></script>
 </head>
 <body class="bg-gray-900 bg-pattern text-white">
 
@@ -18,21 +20,31 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
-                <a href="/alertas.html" class="text-indigo-400 font-semibold">Alertas</a>
-                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
-                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
-                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.home">Inicio</a>
+                <a href="/alertas.html" class="text-indigo-400 font-semibold" data-i18n="navigation.alerts">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.itinerary">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.destinations">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.history">Historial</a>
             </div>
-            <div class="relative">
-                <button id="profile-button" class="flex items-center space-x-2">
-                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
-                </button>
-                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
-                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
-                    <div class="border-t border-gray-700 my-1"></div>
-                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+            <div class="flex items-center space-x-4">
+                <!-- Selector de idioma -->
+                <div class="language-selector">
+                    <select id="languageSelector" class="px-3 py-1 border border-gray-600 bg-gray-700 text-white rounded-lg text-sm">
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="en">🇺🇸 English</option>
+                    </select>
+                </div>
+                
+                <div class="relative">
+                    <button id="profile-button" class="flex items-center space-x-2">
+                        <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                    </button>
+                    <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                        <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.profile">Mi Perfil</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.settings">Configuración</a>
+                        <div class="border-t border-gray-700 my-1"></div>
+                        <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.logout">Cerrar Sesión</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -44,9 +56,9 @@
         <!-- Sección Hero -->
         <section class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                Alertas de <span class="text-red-400">Seguridad</span>
+                <span data-i18n="alerts.title">Alertas de</span> <span class="text-red-400" data-i18n="alerts.titleHighlight">Seguridad</span>
             </h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8" data-i18n="alerts.subtitle">
                 Mantente informado sobre zonas con problemas de tráfico, fenómenos naturales o situaciones de seguridad en tiempo real.
             </p>
         </section>
@@ -56,11 +68,11 @@
             <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
                 <div class="flex items-center justify-between mb-6">
                     <div>
-                        <h2 class="text-2xl font-bold mb-2">Configuración de Notificaciones</h2>
-                        <p class="text-gray-400">Activa o desactiva las alertas según tus preferencias</p>
+                        <h2 class="text-2xl font-bold mb-2" data-i18n="alerts.notificationSettings">Configuración de Notificaciones</h2>
+                        <p class="text-gray-400" data-i18n="alerts.notificationDesc">Activa o desactiva las alertas según tus preferencias</p>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <span class="text-sm text-gray-400">Notificaciones</span>
+                        <span class="text-sm text-gray-400" data-i18n="alerts.notifications">Notificaciones</span>
                         <label class="toggle-switch">
                             <input type="checkbox" id="notifications-toggle" checked>
                             <span class="toggle-slider"></span>
@@ -71,43 +83,43 @@
                 <div class="grid md:grid-cols-3 gap-6">
                     <div class="bg-gray-700/50 rounded-lg p-4">
                         <div class="flex items-center justify-between mb-3">
-                            <h3 class="font-semibold">Tráfico</h3>
+                            <h3 class="font-semibold" data-i18n="alerts.traffic">Tráfico</h3>
                             <label class="toggle-switch small">
                                 <input type="checkbox" id="traffic-toggle" checked>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
-                        <p class="text-sm text-gray-400">Alertas sobre congestiones viales y accidentes</p>
+                        <p class="text-sm text-gray-400" data-i18n="alerts.trafficDesc">Alertas sobre congestiones viales y accidentes</p>
                         <div class="mt-2">
-                            <span id="traffic-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                            <span id="traffic-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400" data-i18n="alerts.active">Activo</span>
                         </div>
                     </div>
                     
                     <div class="bg-gray-700/50 rounded-lg p-4">
                         <div class="flex items-center justify-between mb-3">
-                            <h3 class="font-semibold">Fenómenos Naturales</h3>
+                            <h3 class="font-semibold" data-i18n="alerts.naturalPhenomena">Fenómenos Naturales</h3>
                             <label class="toggle-switch small">
                                 <input type="checkbox" id="natural-toggle" checked>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
-                        <p class="text-sm text-gray-400">Alertas sobre terremotos, huracanes, etc.</p>
+                        <p class="text-sm text-gray-400" data-i18n="alerts.naturalDesc">Alertas sobre terremotos, huracanes, etc.</p>
                         <div class="mt-2">
-                            <span id="natural-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                            <span id="natural-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400" data-i18n="alerts.active">Activo</span>
                         </div>
                     </div>
                     
                     <div class="bg-gray-700/50 rounded-lg p-4">
                         <div class="flex items-center justify-between mb-3">
-                            <h3 class="font-semibold">Seguridad</h3>
+                            <h3 class="font-semibold" data-i18n="alerts.security">Seguridad</h3>
                             <label class="toggle-switch small">
                                 <input type="checkbox" id="security-toggle" checked>
                                 <span class="toggle-slider"></span>
                             </label>
                         </div>
-                        <p class="text-sm text-gray-400">Alertas sobre zonas de riesgo</p>
+                        <p class="text-sm text-gray-400" data-i18n="alerts.securityDesc">Alertas sobre zonas de riesgo</p>
                         <div class="mt-2">
-                            <span id="security-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400">Activo</span>
+                            <span id="security-status" class="text-xs px-2 py-1 rounded-full bg-green-500/20 text-green-400" data-i18n="alerts.active">Activo</span>
                         </div>
                     </div>
                 </div>
@@ -116,7 +128,7 @@
 
         <!-- Alertas Activas -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-8">Alertas Activas</h2>
+            <h2 class="text-3xl font-bold mb-8" data-i18n="alerts.recentAlertsTitle">Alertas Activas</h2>
             <div id="alertas-container" class="space-y-4">
                 <!-- Las alertas se cargarán dinámicamente aquí -->
             </div>
@@ -124,15 +136,86 @@
 
         <!-- Mapa de Zonas -->
         <section>
-            <h2 class="text-3xl font-bold mb-8">Mapa de Zonas</h2>
+            <h2 class="text-3xl font-bold mb-8" data-i18n="alerts.mapTitle">Mapa de Zonas de Alerta</h2>
             <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
-                <div class="aspect-video bg-gray-700 rounded-lg flex items-center justify-center">
-                    <div class="text-center">
-                        <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3"></path>
+                <!-- Controles de filtro -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4" data-i18n="alerts.filterAlerts">Filtrar Alertas</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="filter-traffic" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-300" data-i18n="alerts.trafficFilter">🚗 Tráfico</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="filter-natural" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-300" data-i18n="alerts.naturalFilter">🌊 Fenómenos Naturales</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="filter-security" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm text-gray-300" data-i18n="alerts.securityFilter">⚠️ Seguridad</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Contenedor del mapa -->
+                <div class="relative">
+                    <div id="alertas-map" class="alertas-map-container bg-gray-700 rounded-lg">
+                        <!-- El mapa se cargará aquí -->
+                    </div>
+                    
+                    <!-- Botón para centrar en ubicación actual -->
+                    <button id="btn-mi-ubicacion" class="btn-actualizar-ubicacion" data-i18n="alerts.myLocation" title="Ir a mi ubicación">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <p class="text-gray-400">Mapa interactivo de zonas con alertas</p>
-                        <p class="text-sm text-gray-500 mt-2">Próximamente: Integración con mapas en tiempo real</p>
+                    </button>
+                </div>
+                
+                <!-- Información adicional -->
+                <div class="mt-6 space-y-4">
+                    <!-- Leyenda de colores -->
+                    <div class="bg-gray-700/50 rounded-lg p-4">
+                        <h4 class="text-sm font-semibold mb-3 text-gray-200" data-i18n="alerts.severityLegend">Leyenda de Colores por Severidad</h4>
+                        <div class="grid grid-cols-3 gap-4 text-xs">
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-red-600 rounded-full border border-red-400"></div>
+                                <span class="text-gray-300" data-i18n="alerts.high">Alta - Crítico</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-orange-500 rounded-full border border-orange-400"></div>
+                                <span class="text-gray-300" data-i18n="alerts.medium">Media - Moderado</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-4 h-4 bg-green-500 rounded-full border border-green-400"></div>
+                                <span class="text-gray-300" data-i18n="alerts.low">Baja - Leve</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información de tipos -->
+                    <div class="grid md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-gray-700/50 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-lg">🚗</span>
+                                <span class="font-medium" data-i18n="alerts.traffic">Tráfico</span>
+                            </div>
+                            <p class="text-gray-400" data-i18n="alerts.trafficInfo">Congestiones, accidentes y cierres viales</p>
+                        </div>
+                        <div class="bg-gray-700/50 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-lg">🌊</span>
+                                <span class="font-medium" data-i18n="alerts.naturalPhenomena">Fenómenos Naturales</span>
+                            </div>
+                            <p class="text-gray-400" data-i18n="alerts.naturalInfo">Sismos, lluvias intensas e inundaciones</p>
+                        </div>
+                        <div class="bg-gray-700/50 rounded-lg p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-lg">⚠️</span>
+                                <span class="font-medium" data-i18n="alerts.security">Seguridad</span>
+                            </div>
+                            <p class="text-gray-400" data-i18n="alerts.securityInfo">Zonas de riesgo y actividad sospechosa</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -277,6 +360,9 @@
             
             // Renderizar alertas
             renderAlertas()
+            
+            // Inicializar el mapa
+            initializeMap()
             
             // Inicializar indicadores de estado
             updateStatusIndicators()
@@ -446,6 +532,94 @@
                 }, 300)
             }, 3000)
         }
+
+        // Inicialización del mapa cuando el usuario está autenticado
+        async function initializeMap() {
+            try {
+                const { default: AlertasMap } = await import('/js/alertas-map.js');
+                
+                // Crear instancia del mapa
+                const alertasMap = new AlertasMap('alertas-map');
+                
+                // Configurar filtros
+                const filterTraffic = document.getElementById('filter-traffic');
+                const filterNatural = document.getElementById('filter-natural');
+                const filterSecurity = document.getElementById('filter-security');
+                const btnMiUbicacion = document.getElementById('btn-mi-ubicacion');
+                
+                // Función para aplicar filtros
+                function aplicarFiltros() {
+                    const tiposActivos = [];
+                    if (filterTraffic.checked) tiposActivos.push('traffic');
+                    if (filterNatural.checked) tiposActivos.push('natural');
+                    if (filterSecurity.checked) tiposActivos.push('security');
+                    
+                    alertasMap.filtrarPorTipo(tiposActivos);
+                }
+                
+                // Eventos de filtros
+                filterTraffic.addEventListener('change', aplicarFiltros);
+                filterNatural.addEventListener('change', aplicarFiltros);
+                filterSecurity.addEventListener('change', aplicarFiltros);
+                
+                // Botón de ubicación actual
+                btnMiUbicacion.addEventListener('click', () => {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                const coords = [
+                                    position.coords.longitude,
+                                    position.coords.latitude
+                                ];
+                                alertasMap.centrarEn(coords, 15);
+                            },
+                            (error) => {
+                                console.error('Error obteniendo ubicación:', error);
+                                showNotification('No se pudo obtener tu ubicación', 'error');
+                            }
+                        );
+                    } else {
+                        showNotification('Geolocalización no soportada', 'error');
+                    }
+                });
+                
+                console.log('Mapa de alertas inicializado correctamente');
+                
+            } catch (error) {
+                console.error('Error inicializando el mapa:', error);
+                
+                // Mostrar mensaje de error en el contenedor del mapa
+                const mapContainer = document.getElementById('alertas-map');
+                if (mapContainer) {
+                    mapContainer.innerHTML = `
+                        <div class="flex items-center justify-center h-full">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-gray-400">Error cargando el mapa</p>
+                                <p class="text-sm text-gray-500 mt-2">Verifica la configuración de Mapbox</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+    </script>
+
+    <!-- Inicialización de i18n -->
+    <script>
+        // Inicializar traducciones cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar el selector de idioma
+            i18n.initLanguageSelector();
+            
+            // Aplicar traducciones iniciales después de un pequeño delay
+            // para asegurar que las traducciones estén cargadas
+            setTimeout(() => {
+                i18n.translatePage();
+            }, 100);
+        });
     </script>
 
 </body>

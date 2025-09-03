@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Mapa Alertas - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/alertas-map.css">
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto px-6 py-12">
+        <h1 class="text-4xl font-bold mb-8 text-center">
+            Prueba del Mapa de <span class="text-red-400">Alertas</span>
+        </h1>
+        
+        <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+            <!-- Controles de filtro -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-4">Filtrar Alertas</h3>
+                <div class="flex flex-wrap gap-4 mb-4">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-traffic" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">🚗 Tráfico</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-natural" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">🌊 Fenómenos Naturales</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-security" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">⚠️ Seguridad</span>
+                    </label>
+                </div>
+                
+                <!-- Información sobre colores -->
+                <div class="bg-gray-700/50 rounded-lg p-3">
+                    <h4 class="text-xs font-semibold mb-2 text-gray-200">Colores por Severidad:</h4>
+                    <div class="flex gap-4 text-xs">
+                        <div class="flex items-center gap-1">
+                            <div class="w-3 h-3 bg-red-600 rounded-full"></div>
+                            <span class="text-gray-300">Alta</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                            <span class="text-gray-300">Media</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="text-gray-300">Baja</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenedor del mapa -->
+            <div class="relative">
+                <div id="alertas-map" class="alertas-map-container bg-gray-700 rounded-lg">
+                    <!-- El mapa se cargará aquí -->
+                </div>
+                
+                <!-- Botón para centrar en ubicación actual -->
+                <button id="btn-mi-ubicacion" class="btn-actualizar-ubicacion" title="Ir a mi ubicación">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Información adicional -->
+            <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
+                        <span class="font-medium">Tráfico</span>
+                    </div>
+                    <p class="text-gray-400">Congestiones, accidentes y cierres viales</p>
+                </div>
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-red-500 rounded-full"></div>
+                        <span class="font-medium">Fenómenos Naturales</span>
+                    </div>
+                    <p class="text-gray-400">Sismos, lluvias intensas e inundaciones</p>
+                </div>
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-red-600 rounded-full"></div>
+                        <span class="font-medium">Seguridad</span>
+                    </div>
+                    <p class="text-gray-400">Zonas de riesgo y actividad sospechosa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Inicialización del mapa
+        async function initializeMap() {
+            try {
+                const { default: AlertasMap } = await import('/js/alertas-map.js');
+                
+                // Crear instancia del mapa
+                const alertasMap = new AlertasMap('alertas-map');
+                
+                // Configurar filtros
+                const filterTraffic = document.getElementById('filter-traffic');
+                const filterNatural = document.getElementById('filter-natural');
+                const filterSecurity = document.getElementById('filter-security');
+                const btnMiUbicacion = document.getElementById('btn-mi-ubicacion');
+                
+                // Función para aplicar filtros
+                function aplicarFiltros() {
+                    const tiposActivos = [];
+                    if (filterTraffic.checked) tiposActivos.push('traffic');
+                    if (filterNatural.checked) tiposActivos.push('natural');
+                    if (filterSecurity.checked) tiposActivos.push('security');
+                    
+                    alertasMap.filtrarPorTipo(tiposActivos);
+                }
+                
+                // Eventos de filtros
+                filterTraffic.addEventListener('change', aplicarFiltros);
+                filterNatural.addEventListener('change', aplicarFiltros);
+                filterSecurity.addEventListener('change', aplicarFiltros);
+                
+                // Botón de ubicación actual
+                btnMiUbicacion.addEventListener('click', () => {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                const coords = [
+                                    position.coords.longitude,
+                                    position.coords.latitude
+                                ];
+                                alertasMap.centrarEn(coords, 15);
+                            },
+                            (error) => {
+                                console.error('Error obteniendo ubicación:', error);
+                                alert('No se pudo obtener tu ubicación');
+                            }
+                        );
+                    } else {
+                        alert('Geolocalización no soportada');
+                    }
+                });
+                
+                console.log('Mapa de alertas inicializado correctamente');
+                
+            } catch (error) {
+                console.error('Error inicializando el mapa:', error);
+                
+                // Mostrar mensaje de error en el contenedor del mapa
+                const mapContainer = document.getElementById('alertas-map');
+                if (mapContainer) {
+                    mapContainer.innerHTML = `
+                        <div class="flex items-center justify-center h-full">
+                            <div class="text-center">
+                                <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-gray-400">Error cargando el mapa</p>
+                                <p class="text-sm text-gray-500 mt-2">Verifica la configuración de Mapbox</p>
+                                <p class="text-xs text-gray-600 mt-1">Error: ${error.message}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
+        // Inicializar cuando cargue la página
+        document.addEventListener('DOMContentLoaded', initializeMap);
+    </script>
+
+</body>
+</html>
