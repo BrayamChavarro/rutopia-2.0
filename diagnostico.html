@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Mapa - Rutopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">🔧 Diagnóstico del Mapa de Alertas</h1>
+        
+        <div class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Estado del Sistema</h2>
+            <div id="diagnostics" class="space-y-2">
+                <div class="flex items-center gap-2">
+                    <div id="vite-status" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <span>Vite Dev Server</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div id="env-status" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <span>Variables de Entorno</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div id="mapbox-status" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <span>Token de Mapbox</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div id="modules-status" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <span>Módulos de Mapbox</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Enlaces de Prueba</h2>
+            <div class="space-y-2">
+                <a href="/alertas.html" class="block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+                    📍 Página de Alertas (Requiere Login)
+                </a>
+                <a href="/test-map.html" class="block bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition">
+                    🗺️ Mapa de Prueba (Sin Login)
+                </a>
+                <a href="/login.html" class="block bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded transition">
+                    🔑 Página de Login
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Información del Token</h2>
+            <div class="bg-gray-700 rounded p-4 font-mono text-sm">
+                <div><strong>Token actual:</strong> <span id="token-display">Cargando...</span></div>
+                <div class="mt-2"><strong>Estado:</strong> <span id="token-status">Verificando...</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Verificar estado del sistema
+        function updateStatus(id, status) {
+            const element = document.getElementById(id);
+            if (status) {
+                element.className = 'w-3 h-3 bg-green-500 rounded-full';
+            } else {
+                element.className = 'w-3 h-3 bg-red-500 rounded-full';
+            }
+        }
+
+        // Verificar Vite
+        updateStatus('vite-status', true); // Si esta página carga, Vite funciona
+
+        // Verificar variables de entorno
+        const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN;
+        const tokenDisplay = document.getElementById('token-display');
+        const tokenStatus = document.getElementById('token-status');
+
+        if (mapboxToken) {
+            updateStatus('env-status', true);
+            tokenDisplay.textContent = mapboxToken.substring(0, 20) + '...';
+            
+            // Verificar si el token es válido
+            if (mapboxToken.startsWith('pk.')) {
+                updateStatus('mapbox-status', true);
+                tokenStatus.textContent = 'Token válido detectado';
+                tokenStatus.className = 'text-green-400';
+            } else {
+                updateStatus('mapbox-status', false);
+                tokenStatus.textContent = 'Token inválido';
+                tokenStatus.className = 'text-red-400';
+            }
+        } else {
+            updateStatus('env-status', false);
+            updateStatus('mapbox-status', false);
+            tokenDisplay.textContent = 'No configurado';
+            tokenStatus.textContent = 'Token no encontrado';
+            tokenStatus.className = 'text-red-400';
+        }
+
+        // Verificar módulos de Mapbox
+        try {
+            import('mapbox-gl').then(() => {
+                updateStatus('modules-status', true);
+                console.log('✅ Módulos de Mapbox cargados correctamente');
+            }).catch(error => {
+                updateStatus('modules-status', false);
+                console.error('❌ Error cargando módulos de Mapbox:', error);
+            });
+        } catch (error) {
+            updateStatus('modules-status', false);
+            console.error('❌ Error importando Mapbox:', error);
+        }
+
+        console.log('🔧 Diagnóstico del sistema:');
+        console.log('- Vite: ✅ Funcionando');
+        console.log('- Token Mapbox:', mapboxToken ? '✅ Configurado' : '❌ No configurado');
+        console.log('- URL actual:', window.location.href);
+    </script>
+
+</body>
+</html>

@@ -1,25 +1,72 @@
+/* Estilos para el login */
 body {
     font-family: 'Inter', sans-serif;
 }
+
 .bg-pattern {
     background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
     background-color: #111827;
 }
-.form-container {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+
+/* Estilos para la alternancia de formularios */
+.form-section {
+    opacity: 1;
+    transform: translateX(0);
     transition: all 0.3s ease-in-out;
 }
-/* Estilos para la transición */
-.form-section {
-    transition: opacity 0.5s, transform 0.5s;
-}
+
 .hidden-form {
+    display: none !important;
     opacity: 0;
-    transform: translateY(20px);
-    position: absolute;
-    pointer-events: none;
+    transform: translateX(100%);
 }
 
+/* Estilos para el contenedor del formulario */
+.form-container {
+    position: relative;
+    overflow: hidden;
+}
 
+/* Animaciones suaves para los formularios */
+.form-section {
+    position: relative;
+    width: 100%;
+}
 
+/* Selector de idioma mejorado */
+.language-selector select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.language-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #6366f1;
+    border-color: #6366f1;
+}
+
+/* Efectos hover para botones */
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Estilos para inputs */
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #6366f1;
+    border-color: #6366f1;
+}
+
+/* Google signin button */
+#google-signin {
+    background: linear-gradient(135deg, #db4437 0%, #c23321 100%);
+}
+
+#google-signin:hover {
+    background: linear-gradient(135deg, #c23321 0%, #a52714 100%);
+}

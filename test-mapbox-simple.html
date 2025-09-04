@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mapa Mapbox - Diagnóstico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+
+    <div class="container mx-auto px-6 py-12">
+        <h1 class="text-4xl font-bold mb-8 text-center">
+            Test del Mapa de <span class="text-red-400">Alertas</span>
+        </h1>
+        
+        <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
+            <!-- Navegación -->
+            <div class="mb-6 flex gap-4 text-sm">
+                <a href="/mapa-alternativo.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded transition">
+                    🌍 Mapa Alternativo (OpenStreetMap)
+                </a>
+                <a href="/diagnostico.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded transition">
+                    🔧 Diagnóstico Completo
+                </a>
+            </div>
+
+            <!-- Controles de filtro -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-4">Filtrar Alertas</h3>
+                <div class="flex flex-wrap gap-4 mb-4">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-traffic" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">🚗 Tráfico</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-natural" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">🌊 Fenómenos Naturales</span>
+                    </label>
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" id="filter-security" checked class="rounded border-gray-600 bg-gray-700 text-indigo-600 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-300">⚠️ Seguridad</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Contenedor del mapa -->
+            <div class="relative">
+                <div id="alertas-map" style="width: 100%; height: 500px; border-radius: 12px; background: #374151; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center">
+                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-400 mx-auto mb-4"></div>
+                        <p class="text-gray-400">Cargando mapa de Mapbox...</p>
+                        <p class="text-xs text-gray-500 mt-2">Si tarda mucho, prueba el mapa alternativo arriba</p>
+                    </div>
+                </div>
+                
+                <!-- Botón para centrar en ubicación actual -->
+                <button id="btn-mi-ubicacion" class="absolute bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition" title="Ir a mi ubicación">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Información adicional -->
+            <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-red-600 rounded-full"></div>
+                        <span class="font-medium">Alta - Crítico</span>
+                    </div>
+                    <p class="text-gray-400">Situaciones que requieren atención inmediata</p>
+                </div>
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-orange-500 rounded-full"></div>
+                        <span class="font-medium">Media - Moderado</span>
+                    </div>
+                    <p class="text-gray-400">Situaciones que requieren precaución</p>
+                </div>
+                <div class="bg-gray-700/50 rounded-lg p-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                        <span class="font-medium">Baja - Leve</span>
+                    </div>
+                    <p class="text-gray-400">Situaciones informativas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        console.log('🚀 Iniciando test de Mapbox...');
+        
+        async function testMapbox() {
+            try {
+                // Verificar token
+                const token = import.meta.env.VITE_MAPBOX_TOKEN;
+                console.log('Token:', token ? 'Configurado' : 'No configurado');
+                
+                if (!token) {
+                    throw new Error('Token de Mapbox no configurado');
+                }
+                
+                // Importar Mapbox
+                console.log('Importando Mapbox GL...');
+                const mapboxgl = await import('mapbox-gl');
+                console.log('✅ Mapbox GL importado');
+                
+                // Importar CSS
+                await import('mapbox-gl/dist/mapbox-gl.css');
+                console.log('✅ CSS importado');
+                
+                // Configurar token
+                mapboxgl.default.accessToken = token;
+                console.log('✅ Token configurado');
+                
+                // Crear mapa
+                console.log('Creando mapa...');
+                const map = new mapboxgl.default.Map({
+                    container: 'alertas-map',
+                    style: 'mapbox://styles/mapbox/dark-v11',
+                    center: [-74.06, 4.65], // Bogotá
+                    zoom: 11
+                });
+                
+                console.log('✅ Mapa creado, esperando carga...');
+                
+                map.on('load', () => {
+                    console.log('🎉 ¡Mapa cargado exitosamente!');
+                    
+                    // Añadir controles
+                    map.addControl(new mapboxgl.default.NavigationControl(), 'top-right');
+                    
+                    // Añadir marcadores de ejemplo
+                    const alertas = [
+                        { coords: [-74.075, 4.598], titulo: 'Congestión Vial', color: '#f59e0b' },
+                        { coords: [-74.06, 4.65], titulo: 'Alerta Sísmica', color: '#dc2626' },
+                        { coords: [-74.18, 4.57], titulo: 'Zona de Riesgo', color: '#dc2626' },
+                        { coords: [-74.04, 4.75], titulo: 'Accidente Vial', color: '#dc2626' },
+                        { coords: [-74.12, 4.55], titulo: 'Lluvia Intensa', color: '#f59e0b' }
+                    ];
+                    
+                    alertas.forEach(alerta => {
+                        new mapboxgl.default.Marker({ color: alerta.color })
+                            .setLngLat(alerta.coords)
+                            .setPopup(new mapboxgl.default.Popup({ offset: 25 }).setHTML(`<h3>${alerta.titulo}</h3>`))
+                            .addTo(map);
+                    });
+                    
+                    console.log('✅ Marcadores añadidos');
+                });
+                
+                map.on('error', (e) => {
+                    console.error('❌ Error del mapa:', e);
+                    mostrarError('Error de Mapbox: ' + (e.error?.message || 'Error desconocido'));
+                });
+                
+                // Configurar botón de ubicación
+                const btnUbicacion = document.getElementById('btn-mi-ubicacion');
+                btnUbicacion.addEventListener('click', () => {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                map.flyTo({
+                                    center: [position.coords.longitude, position.coords.latitude],
+                                    zoom: 15
+                                });
+                            },
+                            (error) => alert('Error obteniendo ubicación: ' + error.message)
+                        );
+                    } else {
+                        alert('Geolocalización no soportada');
+                    }
+                });
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                mostrarError(error.message);
+            }
+        }
+        
+        function mostrarError(mensaje) {
+            const container = document.getElementById('alertas-map');
+            container.innerHTML = `
+                <div class="text-center">
+                    <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">Error con Mapbox</h3>
+                    <p class="text-gray-400 mb-4">${mensaje}</p>
+                    <a href="/mapa-alternativo.html" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-white transition">
+                        Usar Mapa Alternativo (OpenStreetMap)
+                    </a>
+                </div>
+            `;
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(testMapbox, 500);
+        });
+    </script>
+
+</body>
+</html>

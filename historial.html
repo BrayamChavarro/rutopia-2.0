@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial de Ubicaciones - Rutopia</title>
+    <title data-i18n="history.pageTitle">Historial de Ubicaciones - Rutopia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/historial.css">
+    <script src="js/i18n-browser.js"></script>
 </head>
 <body class="bg-gray-900 bg-pattern text-white">
     <!-- Header / Navegación -->
@@ -17,21 +18,31 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
-                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
-                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
-                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition">Destinos</a>
-                <a href="/historial.html" class="text-indigo-400 font-semibold">Historial</a>
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.home">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.alerts">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.itinerary">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.destinations">Destinos</a>
+                <a href="/historial.html" class="text-indigo-400 font-semibold" data-i18n="navigation.history">Historial</a>
             </div>
-            <div class="relative">
-                <button id="profile-button" class="flex items-center space-x-2">
-                    <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
-                </button>
-                <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
-                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
-                    <div class="border-t border-gray-700 my-1"></div>
-                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+            <div class="flex items-center space-x-4">
+                <!-- Selector de idioma -->
+                <div class="language-selector">
+                    <select id="languageSelector" class="px-3 py-1 border border-gray-600 bg-gray-700 text-white rounded-lg text-sm">
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="en">🇺🇸 English</option>
+                    </select>
+                </div>
+                
+                <div class="relative">
+                    <button id="profile-button" class="flex items-center space-x-2">
+                        <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
+                    </button>
+                    <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
+                        <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.profile">Mi Perfil</a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.settings">Configuración</a>
+                        <div class="border-t border-gray-700 my-1"></div>
+                        <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.logout">Cerrar Sesión</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -42,9 +53,9 @@
         <!-- Sección Hero -->
         <section class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                Historial de <span class="text-indigo-400">Ubicaciones</span>
+                <span data-i18n="history.title">Historial de</span> <span class="text-indigo-400" data-i18n="history.titleHighlight">Ubicaciones</span>
             </h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8" data-i18n="history.subtitle">
                 Revisa todos los lugares que has visitado y guarda tus recuerdos más especiales de cada viaje.
             </p>
         </section>
@@ -54,19 +65,19 @@
             <div class="grid md:grid-cols-4 gap-6">
                 <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
                     <div class="text-3xl font-bold text-indigo-400 mb-2" id="total-ubicaciones">0</div>
-                    <p class="text-gray-400">Ubicaciones Visitadas</p>
+                    <p class="text-gray-400" data-i18n="history.visitedLocations">Ubicaciones Visitadas</p>
                 </div>
                 <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
                     <div class="text-3xl font-bold text-green-400 mb-2" id="total-ciudades-historial">0</div>
-                    <p class="text-gray-400">Ciudades Diferentes</p>
+                    <p class="text-gray-400" data-i18n="history.differentCities">Ciudades Diferentes</p>
                 </div>
                 <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
                     <div class="text-3xl font-bold text-yellow-400 mb-2" id="total-paises">0</div>
-                    <p class="text-gray-400">Países Visitados</p>
+                    <p class="text-gray-400" data-i18n="history.visitedCountries">Países Visitados</p>
                 </div>
                 <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 text-center">
                     <div class="text-3xl font-bold text-purple-400 mb-2" id="ultima-visita">-</div>
-                    <p class="text-gray-400">Última Visita</p>
+                    <p class="text-gray-400" data-i18n="history.lastVisit">Última Visita</p>
                 </div>
             </div>
         </section>
@@ -76,17 +87,17 @@
             <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
-                        <input type="text" id="buscar-ubicacion" placeholder="Buscar por nombre o dirección..." 
+                        <input type="text" id="buscar-ubicacion" data-i18n="history.searchPlaceholder" placeholder="Buscar por nombre o dirección..." 
                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <div class="flex gap-2">
                         <select id="filtro-ciudad" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="">Todas las ciudades</option>
+                            <option value="" data-i18n="history.allCities">Todas las ciudades</option>
                         </select>
                         <select id="filtro-pais" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <option value="">Todos los países</option>
+                            <option value="" data-i18n="history.allCountries">Todos los países</option>
                         </select>
-                        <button id="limpiar-filtros" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                        <button id="limpiar-filtros" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition" data-i18n="history.clearFilters">
                             Limpiar
                         </button>
                     </div>
@@ -97,14 +108,14 @@
         <!-- Lista de Ubicaciones -->
         <section>
             <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold">Ubicaciones Visitadas</h2>
+                <h2 class="text-3xl font-bold" data-i18n="history.visitedLocationsTitle">Ubicaciones Visitadas</h2>
                 <div class="flex items-center space-x-4">
-                    <span class="text-gray-400 text-sm" id="resultados-contador">Mostrando 0 ubicaciones</span>
+                    <span class="text-gray-400 text-sm" id="resultados-contador" data-i18n="history.showingLocations">Mostrando 0 ubicaciones</span>
                     <button id="agregar-ubicacion" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition flex items-center space-x-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        <span>Agregar Ubicación</span>
+                        <span data-i18n="history.addLocation">Agregar Ubicación</span>
                     </button>
                 </div>
             </div>
@@ -116,8 +127,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
-                    <p class="text-gray-400">No hay ubicaciones registradas</p>
-                    <p class="text-sm text-gray-500 mt-2">Agrega tu primera ubicación visitada</p>
+                    <p class="text-gray-400" data-i18n="history.noLocations">No hay ubicaciones registradas</p>
+                    <p class="text-sm text-gray-500 mt-2" data-i18n="history.addFirstLocation">Agrega tu primera ubicación visitada</p>
                 </div>
             </div>
         </section>
@@ -127,7 +138,7 @@
     <div id="modal-ubicacion" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
         <div class="bg-gray-800 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-bold">Agregar Nueva Ubicación</h3>
+                <h3 class="text-2xl font-bold" data-i18n="history.addNewLocation">Agregar Nueva Ubicación</h3>
                 <button id="cerrar-modal" class="text-gray-400 hover:text-white transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -138,43 +149,43 @@
             <form id="ubicacion-form" class="space-y-6">
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium mb-2">Nombre del Lugar</label>
-                        <input type="text" id="nombre-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Torre Eiffel" required>
+                        <label class="block text-sm font-medium mb-2" data-i18n="history.placeName">Nombre del Lugar</label>
+                        <input type="text" id="nombre-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.placeNamePlaceholder" placeholder="Ej: Torre Eiffel" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2">Ciudad</label>
-                        <input type="text" id="ciudad-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: París" required>
+                        <label class="block text-sm font-medium mb-2" data-i18n="history.city">Ciudad</label>
+                        <input type="text" id="ciudad-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.cityPlaceholder" placeholder="Ej: París" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2">País</label>
-                        <input type="text" id="pais-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Francia" required>
+                        <label class="block text-sm font-medium mb-2" data-i18n="history.country">País</label>
+                        <input type="text" id="pais-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.countryPlaceholder" placeholder="Ej: Francia" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2">Fecha de Visita</label>
+                        <label class="block text-sm font-medium mb-2" data-i18n="history.visitDate">Fecha de Visita</label>
                         <input type="date" id="fecha-visita" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                     </div>
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Dirección Completa</label>
-                    <input type="text" id="direccion-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Ej: Champ de Mars, 5 Avenue Anatole France, 75007 París">
+                    <label class="block text-sm font-medium mb-2" data-i18n="history.fullAddress">Dirección Completa</label>
+                    <input type="text" id="direccion-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.addressPlaceholder" placeholder="Ej: Champ de Mars, 5 Avenue Anatole France, 75007 París">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-2">URL de la Foto</label>
-                    <input type="url" id="foto-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="https://ejemplo.com/foto.jpg">
+                    <label class="block text-sm font-medium mb-2" data-i18n="history.photoUrl">URL de la Foto</label>
+                    <input type="url" id="foto-lugar" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.photoUrlPlaceholder" placeholder="https://ejemplo.com/foto.jpg">
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Descripción</label>
-                    <textarea id="descripcion-lugar" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Describe tu experiencia, qué te gustó, etc."></textarea>
+                    <label class="block text-sm font-medium mb-2" data-i18n="history.description">Descripción</label>
+                    <textarea id="descripcion-lugar" rows="3" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" data-i18n="history.descriptionPlaceholder" placeholder="Describe tu experiencia, qué te gustó, etc."></textarea>
                 </div>
                 
                 <div class="flex justify-end space-x-4">
-                    <button type="button" id="cancelar-ubicacion" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                    <button type="button" id="cancelar-ubicacion" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition" data-i18n="history.cancel">
                         Cancelar
                     </button>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded-lg transition" data-i18n="history.addLocationButton">
                         Agregar Ubicación
                     </button>
                 </div>
@@ -185,7 +196,7 @@
     <!-- Footer -->
     <footer class="border-t border-gray-700 mt-20">
         <div class="container mx-auto px-6 py-8 text-center text-gray-400">
-            <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+            <p data-i18n="footer.copyright">&copy; 2025 Rutopia. Todos los derechos reservados.</p>
         </div>
     </footer>
 

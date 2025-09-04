@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendaciones de Destinos - Rutopia</title>
+    <title data-i18n="recommendations.pageTitle">Recomendaciones de Destinos - Rutopia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,26 +13,34 @@
 </head>
 <body class="bg-gray-900 bg-pattern text-white">
 
+    <!-- Selector de idioma -->
+    <div class="fixed top-4 right-4 z-50">
+        <select id="language-selector" class="bg-gray-800 text-white border border-gray-600 rounded px-3 py-1 text-sm">
+            <option value="es">🇪🇸 Español</option>
+            <option value="en">🇺🇸 English</option>
+        </select>
+    </div>
+
     <!-- Header / Navegación -->
     <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="/home.html" class="text-2xl font-bold text-white">Rutopia</a>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition">Inicio</a>
-                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition">Alertas</a>
-                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition">Itinerario</a>
-                <a href="/recomendaciones.html" class="text-indigo-400 font-semibold">Destinos</a>
-                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition">Historial</a>
+                <a href="/home.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.home">Inicio</a>
+                <a href="/alertas.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.alerts">Alertas</a>
+                <a href="/itinerario.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.itinerary">Itinerario</a>
+                <a href="/recomendaciones.html" class="text-indigo-400 font-semibold" data-i18n="navigation.destinations">Destinos</a>
+                <a href="/historial.html" class="text-gray-300 hover:text-indigo-400 transition" data-i18n="navigation.history">Historial</a>
             </div>
             <div class="relative">
                 <button id="profile-button" class="flex items-center space-x-2">
                     <img src="https://placehold.co/40x40/1f2937/a78bfa?text=U" alt="Avatar de usuario" class="w-10 h-10 rounded-full border-2 border-indigo-400">
                 </button>
                 <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl py-2 z-50 border border-gray-700">
-                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Mi Perfil</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Configuración</a>
+                    <a href="/profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.profile">Mi Perfil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.settings">Configuración</a>
                     <div class="border-t border-gray-700 my-1"></div>
-                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Cerrar Sesión</a>
+                    <a href="#" id="logout-link" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700" data-i18n="navigation.logout">Cerrar Sesión</a>
                 </div>
             </div>
         </nav>
@@ -44,9 +52,9 @@
         <!-- Sección Hero -->
         <section class="text-center mb-12">
             <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                Descubre <span class="text-indigo-400">Destinos</span> Increíbles
+                <span data-i18n="recommendations.discoverTitle">Descubre</span> <span class="text-indigo-400" data-i18n="recommendations.destinationsTitle">Destinos</span> <span data-i18n="recommendations.incredibleTitle">Increíbles</span>
             </h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8">
+            <p class="text-gray-300 text-lg max-w-2xl mx-auto mb-8" data-i18n="recommendations.subtitle">
                 Explora los destinos más populares del mundo y sus actividades más representativas. Guarda tus favoritos y planifica tu próxima aventura.
             </p>
         </section>
@@ -56,24 +64,24 @@
             <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
                 <div class="flex flex-wrap items-center gap-4">
                     <div class="flex items-center space-x-2">
-                        <span class="text-sm font-medium">Filtrar por:</span>
+                        <span class="text-sm font-medium" data-i18n="recommendations.filterBy">Filtrar por:</span>
                     </div>
-                    <button id="filter-all" class="filter-btn active bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    <button id="filter-all" class="filter-btn active bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition" data-i18n="recommendations.all">
                         Todos
                     </button>
-                    <button id="filter-europe" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                    <button id="filter-europe" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition" data-i18n="recommendations.europe">
                         Europa
                     </button>
-                    <button id="filter-asia" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                    <button id="filter-asia" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition" data-i18n="recommendations.asia">
                         Asia
                     </button>
-                    <button id="filter-americas" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                    <button id="filter-americas" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition" data-i18n="recommendations.americas">
                         Américas
                     </button>
-                    <button id="filter-africa" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                    <button id="filter-africa" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition" data-i18n="recommendations.africa">
                         África
                     </button>
-                    <button id="filter-oceania" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition">
+                    <button id="filter-oceania" class="filter-btn bg-gray-700 text-gray-300 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-600 transition" data-i18n="recommendations.oceania">
                         Oceanía
                     </button>
                 </div>
@@ -89,7 +97,7 @@
 
         <!-- Sección de Destinos Guardados -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-8">Mis Destinos Guardados</h2>
+            <h2 class="text-3xl font-bold mb-8" data-i18n="recommendations.savedDestinations">Mis Destinos Guardados</h2>
             <div id="destinos-guardados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Los destinos guardados se cargarán dinámicamente aquí -->
             </div>
@@ -97,8 +105,8 @@
                 <svg class="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                 </svg>
-                <p class="text-gray-400">No tienes destinos guardados</p>
-                <p class="text-sm text-gray-500 mt-2">Guarda tus destinos favoritos para verlos aquí</p>
+                <p class="text-gray-400" data-i18n="recommendations.noSavedDestinations">No tienes destinos guardados</p>
+                <p class="text-sm text-gray-500 mt-2" data-i18n="recommendations.saveFavorites">Guarda tus destinos favoritos para verlos aquí</p>
             </div>
         </section>
 
@@ -130,6 +138,9 @@
     <!-- Footer -->
     <footer class="border-t border-gray-700 mt-20">
         <div class="container mx-auto px-6 py-8 text-center text-gray-400">
+            <p data-i18n="footer.copyright">&copy; 2025 Rutopia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
             <p>&copy; 2025 Rutopia. Todos los derechos reservados.</p>
         </div>
     </footer>
@@ -1222,5 +1233,7 @@
         }
     </script>
 
+    <!-- Script de internacionalización -->
+    <script src="js/i18n-browser.js"></script>
 </body>
 </html> 

@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Perfil - Rutopia</title>
+  <title data-i18n="profile.pageTitle">Mi Perfil - Rutopia</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/home.css">
+  <script src="js/i18n-browser.js"></script>
   <style>
     body { font-family: 'Inter', sans-serif; }
     .bg-pattern { background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); background-color: #111827; }
@@ -17,55 +19,64 @@
   <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700">
     <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
       <a href="/" class="text-2xl font-bold text-white">Rutopia</a>
-      <a href="/home.html" class="text-indigo-400 hover:text-indigo-300">Ir a Home</a>
+      <div class="flex items-center space-x-4">
+        <!-- Selector de idioma -->
+        <div class="language-selector">
+          <select id="languageSelector" class="px-3 py-1 border border-gray-600 bg-gray-700 text-white rounded-lg text-sm">
+            <option value="es">🇪🇸 Español</option>
+            <option value="en">🇺🇸 English</option>
+          </select>
+        </div>
+        <a href="/home.html" class="text-indigo-400 hover:text-indigo-300" data-i18n="navigation.home">Ir a Home</a>
+      </div>
     </nav>
   </header>
 
   <main class="container mx-auto px-6 py-12">
-    <h1 class="text-3xl font-bold mb-6">Mi Perfil</h1>
+    <h1 class="text-3xl font-bold mb-6" data-i18n="profile.title">Mi Perfil</h1>
     <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8">
       <form id="prefs-form" class="grid md:grid-cols-2 gap-6">
         <div>
-          <label class="block text-sm text-gray-300 mb-2">Tipo de hospedaje favorito</label>
+          <label class="block text-sm text-gray-300 mb-2" data-i18n="profile.stayType">Tipo de hospedaje favorito</label>
           <select id="stayType" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
-            <option value="hotel">Hotel</option>
-            <option value="hostal">Hostal</option>
-            <option value="cabaña">Cabaña</option>
-            <option value="departamento">Departamento</option>
-            <option value="resort">Resort</option>
+            <option value="hotel" data-i18n="profile.hotel">Hotel</option>
+            <option value="hostal" data-i18n="profile.hostel">Hostal</option>
+            <option value="cabaña" data-i18n="profile.cabin">Cabaña</option>
+            <option value="departamento" data-i18n="profile.apartment">Departamento</option>
+            <option value="resort" data-i18n="profile.resort">Resort</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm text-gray-300 mb-2">Ubicación preferida</label>
+          <label class="block text-sm text-gray-300 mb-2" data-i18n="profile.preferredLocation">Ubicación preferida</label>
           <select id="location" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
-            <option value="montaña">Montaña</option>
-            <option value="playa">Playa</option>
-            <option value="ciudad">Ciudad</option>
-            <option value="campo">Campo</option>
+            <option value="montaña" data-i18n="profile.mountain">Montaña</option>
+            <option value="playa" data-i18n="profile.beach">Playa</option>
+            <option value="ciudad" data-i18n="profile.city">Ciudad</option>
+            <option value="campo" data-i18n="profile.countryside">Campo</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm text-gray-300 mb-2">Lugares de interés</label>
-          <input id="interests" type="text" placeholder="Ej: museos, hiking, comida" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400">
-          <p class="text-xs text-gray-400 mt-2">Usa comas para separar múltiples intereses.</p>
+          <label class="block text-sm text-gray-300 mb-2" data-i18n="profile.interests">Lugares de interés</label>
+          <input id="interests" type="text" data-i18n="profile.interestsPlaceholder" placeholder="Ej: museos, hiking, comida" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400">
+          <p class="text-xs text-gray-400 mt-2" data-i18n="profile.interestsHelp">Usa comas para separar múltiples intereses.</p>
         </div>
         <div>
-          <label class="block text-sm text-gray-300 mb-2">Compañía de viaje</label>
+          <label class="block text-sm text-gray-300 mb-2" data-i18n="profile.travelCompany">Compañía de viaje</label>
           <select id="company" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
-            <option value="solo">Solo</option>
-            <option value="pareja">Pareja</option>
-            <option value="familia">Familia</option>
-            <option value="amigos">Amigos</option>
-            <option value="grupo">Grupo</option>
+            <option value="solo" data-i18n="profile.solo">Solo</option>
+            <option value="pareja" data-i18n="profile.couple">Pareja</option>
+            <option value="familia" data-i18n="profile.family">Familia</option>
+            <option value="amigos" data-i18n="profile.friends">Amigos</option>
+            <option value="grupo" data-i18n="profile.group">Grupo</option>
           </select>
         </div>
         <div class="md:col-span-2">
-          <label class="block text-sm text-gray-300 mb-2">Etiquetas de preferencias</label>
+          <label class="block text-sm text-gray-300 mb-2" data-i18n="profile.preferenceTags">Etiquetas de preferencias</label>
           <div class="flex flex-wrap gap-3 mb-3" id="tags-choices"></div>
-          <button type="button" id="addTagBtn" class="bg-gray-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Añadir etiqueta</button>
+          <button type="button" id="addTagBtn" class="bg-gray-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg" data-i18n="profile.addTag">Añadir etiqueta</button>
         </div>
         <div class="md:col-span-2">
-          <button id="saveBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg" disabled>Guardar preferencias</button>
+          <button id="saveBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg" disabled data-i18n="profile.savePreferences">Guardar preferencias</button>
           <span id="saveStatus" class="text-sm text-gray-400 ml-4"></span>
         </div>
       </form>
@@ -174,8 +185,20 @@
       }
     })
   </script>
+
+  <!-- Inicialización de i18n -->
+  <script>
+    // Inicializar traducciones cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', function() {
+      // Configurar el selector de idioma
+      i18n.initLanguageSelector();
+      
+      // Aplicar traducciones iniciales después de un pequeño delay
+      // para asegurar que las traducciones estén cargadas
+      setTimeout(() => {
+        i18n.translatePage();
+      }, 100);
+    });
+  </script>
 </body>
 </html>
-
-
-
