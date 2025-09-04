@@ -1,0 +1,33 @@
+{
+  "name": "rutopia-backend",
+  "version": "1.0.0",
+  "description": "Backend API para Rutopia - Sistema de alertas y gestión de viajes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-deps": "npm install"
+  },
+  "keywords": [
+    "rutopia",
+    "api",
+    "alerts",
+    "travel",
+    "mongodb"
+  ],
+  "author": "Rutopia Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
