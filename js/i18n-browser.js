@@ -5,7 +5,7 @@ class I18nBrowser {
         this.translations = {};
         this.loadTranslations();
     }
- 
+  
     async loadTranslations() {
         try {
             // Cargar traducciones español
